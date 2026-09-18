@@ -8,16 +8,69 @@
   <body>
     <h1>Geolocalización</h1>
 
+    <label>
+      Latitud:
+      <input type="number" id="latitudManual" step="any" />
+    </label>
+
+    <br /><br />
+
+    <label>
+      Longitud:
+      <input type="number" id="longitudManual" step="any" />
+    </label>
+
+    <br /><br />
+
     <button onclick="obtenerUbicacion()">Obtener mi ubicación</button>
 
     <p id="resultado"></p>
 
     <script>
+      function comprobarValencia(latitud, longitud) {
+        const latitudValencia = 39.4699;
+        const longitudValencia = -0.3763;
+
+        const distancia = Math.sqrt(
+          Math.pow(latitud - latitudValencia, 2) + Math.pow(longitud - longitudValencia, 2)
+        );
+
+        if (distancia > 0.18) {
+          return 'Estás fuera de Valencia.';
+        } else {
+          return 'Estás en Valencia.';
+        }
+      }
+
       function obtenerUbicacion() {
         const resultado = document.getElementById('resultado');
 
+        const latitudManual = document.getElementById('latitudManual').value;
+
+        const longitudManual = document.getElementById('longitudManual').value;
+
+        // Si hemos introducido las coordenadas manualmente
+        if (latitudManual !== '' && longitudManual !== '') {
+          const latitud = parseFloat(latitudManual);
+          const longitud = parseFloat(longitudManual);
+
+          resultado.textContent =
+            'Latitud: ' +
+            latitud +
+            ' | Longitud: ' +
+            longitud +
+            ' | ' +
+            comprobarValencia(latitud, longitud);
+
+          return;
+        }
+
+        // Si no hemos introducido coordenadas,
+        // intentamos obtenerlas automáticamente
+
         if (!navigator.geolocation) {
-          resultado.textContent = 'El navegador no dispone de geolocalización.';
+          resultado.textContent =
+            'El navegador no dispone de geolocalización. Introduce la latitud y longitud manualmente.';
 
           return;
         }
@@ -30,24 +83,18 @@
 
             const longitud = posicion.coords.longitude;
 
-            // Coordenadas aproximadas de Valencia
-            const latitudValencia = 39.4699;
-            const longitudValencia = -0.3763;
-
-            // Calculamos la distancia aproximada
-            const distancia = Math.sqrt(
-              Math.pow(latitud - latitudValencia, 2) + Math.pow(longitud - longitudValencia, 2)
-            );
-
-            if (distancia > 0.18) {
-              resultado.textContent = 'Estás fuera de Valencia.';
-            } else {
-              resultado.textContent = 'Estás en Valencia.';
-            }
+            resultado.textContent =
+              'Latitud: ' +
+              latitud +
+              ' | Longitud: ' +
+              longitud +
+              ' | ' +
+              comprobarValencia(latitud, longitud);
           },
 
           function () {
-            resultado.textContent = 'No se ha podido obtener la ubicación.';
+            resultado.textContent =
+              'No se ha podido obtener la ubicación. Introduce la latitud y longitud manualmente.';
           }
         );
       }

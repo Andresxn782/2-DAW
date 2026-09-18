@@ -1,0 +1,58 @@
+```html
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Geolocalización</title>
+  </head>
+
+  <body>
+    <h1>Geolocalización</h1>
+
+    <button onclick="obtenerUbicacion()">Obtener mi ubicación</button>
+
+    <p id="resultado"></p>
+
+    <script>
+      function obtenerUbicacion() {
+        const resultado = document.getElementById('resultado');
+
+        if (!navigator.geolocation) {
+          resultado.textContent = 'El navegador no dispone de geolocalización.';
+
+          return;
+        }
+
+        resultado.textContent = 'Solicitando ubicación...';
+
+        navigator.geolocation.getCurrentPosition(
+          function (posicion) {
+            const latitud = posicion.coords.latitude;
+
+            const longitud = posicion.coords.longitude;
+
+            // Coordenadas aproximadas de Valencia
+            const latitudValencia = 39.4699;
+            const longitudValencia = -0.3763;
+
+            // Calculamos la distancia aproximada
+            const distancia = Math.sqrt(
+              Math.pow(latitud - latitudValencia, 2) + Math.pow(longitud - longitudValencia, 2)
+            );
+
+            if (distancia > 0.18) {
+              resultado.textContent = 'Estás fuera de Valencia.';
+            } else {
+              resultado.textContent = 'Estás en Valencia.';
+            }
+          },
+
+          function () {
+            resultado.textContent = 'No se ha podido obtener la ubicación.';
+          }
+        );
+      }
+    </script>
+  </body>
+</html>
+```

@@ -1,0 +1,37 @@
+```html
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ventanas emergentes</title>
+  </head>
+
+  <body>
+    <h1>Prueba de ventanas emergentes</h1>
+
+    <input type="text" id="pagina" placeholder="https://example.com" />
+
+    <br /><br />
+
+    <button onclick="abrirVentana()">Abrir ventana</button>
+
+    <button onclick="abrirDespues()">Intentar abrir dentro de 3 segundos</button>
+
+    <script>
+      function abrirVentana() {
+        const pagina = document.getElementById('pagina').value;
+
+        window.open(pagina, '_blank');
+      }
+
+      function abrirDespues() {
+        const pagina = document.getElementById('pagina').value;
+
+        setTimeout(function () {
+          window.open(pagina, '_blank');
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
+```

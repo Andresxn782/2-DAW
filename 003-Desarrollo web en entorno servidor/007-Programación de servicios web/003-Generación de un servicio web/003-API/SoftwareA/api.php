@@ -1,7 +1,7 @@
 <?php
 
 
-$API_KEY_CORRECTA = "jocarsa_123456789_segura";
+$API_KEY_CORRECTA = "velnora_123456789_segura";
 header("Content-Type: application/json; charset=UTF-8");
 
 // IMPORTANTE
@@ -20,9 +20,9 @@ if ($api_key !== $API_KEY_CORRECTA) {
 http_response_code(200);
 
 echo json_encode([
-    "nombre" => "Jose Vicente",
-    "apellidos" => "Carratala Sanchis",
-    "email" => "info@josevicentecarratala.com"
+    "nombre" => "Andres",
+    "apellidos" => "Ruiz Torres",
+    "email" => "info@andresruiztorres.com"
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
 ?>

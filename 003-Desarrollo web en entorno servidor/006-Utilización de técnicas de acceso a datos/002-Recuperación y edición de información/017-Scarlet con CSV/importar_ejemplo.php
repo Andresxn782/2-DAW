@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/config.php';
-require_once __DIR__.'/Clases/JocarsaCSV.php';
-$db=new JocarsaCSV($config['ruta_datos']); $base=$config['basededatos']; $db->crearBaseDatos($base);
+require_once __DIR__.'/Clases/VelnoraCSV.php';
+$db=new VelnoraCSV($config['ruta_datos']); $base=$config['basededatos']; $db->crearBaseDatos($base);
 $tablas=[
 'usuarios'=>['Identificador','usuario','contrasena','nombre','rol'],
 'roles'=>['Identificador','idrol','tabla'],

@@ -3,10 +3,10 @@
   include "modelo.php";
   include "controlador.php";
   
-  $basededatos = new JocarsaModelo("clientes.db");
+  $basededatos = new VelnoraModelo("clientes.db");
   $clientes = $basededatos->dameDatos("clientes");
   $json = coseJSON($clientes);
-  $vista = new JocarsaVista($json);
+  $vista = new VelnoraVista($json);
   $vista->pintaTabla();
 
 ?>

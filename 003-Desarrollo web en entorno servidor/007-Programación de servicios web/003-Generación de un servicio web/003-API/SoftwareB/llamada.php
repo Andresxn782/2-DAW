@@ -10,7 +10,7 @@
 
   // Envío la API Key /////////// IMPORTANTE
   curl_setopt($curl, CURLOPT_HTTPHEADER, [
-    "X-API-Key: jocarsa_123456789_segura"
+    "X-API-Key: velnora_123456789_segura"
   ]);
 
   // Ejecuto la petición

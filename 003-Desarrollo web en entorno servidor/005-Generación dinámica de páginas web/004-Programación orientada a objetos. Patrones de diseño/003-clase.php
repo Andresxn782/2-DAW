@@ -1,5 +1,5 @@
 <?php
-	class JocarsaModelo{
+	class VelnoraModelo{
   	dameDatos($tabla){
       $db = new PDO('sqlite:clientes.db');
       $info = $db->query("SELECT * FROM ".$tabla);

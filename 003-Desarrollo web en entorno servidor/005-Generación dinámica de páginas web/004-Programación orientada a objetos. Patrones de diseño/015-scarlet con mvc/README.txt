@@ -1,9 +1,9 @@
 ScarletRed MVC
 
-Reestructuración del proyecto ScarletRed usando tres clases Jocarsa:
-- modelo.php       -> JocarsaModelo: PDO/SQLite, esquema, CRUD, login y roles.
-- controlador.php  -> JocarsaControlador: sesión, acciones, permisos y coordinación.
-- vista.php        -> JocarsaVista: todo el HTML de login, panel, tabla y formulario.
+Reestructuración del proyecto ScarletRed usando tres clases Velnora:
+- modelo.php       -> VelnoraModelo: PDO/SQLite, esquema, CRUD, login y roles.
+- controlador.php  -> VelnoraControlador: sesión, acciones, permisos y coordinación.
+- vista.php        -> VelnoraVista: todo el HTML de login, panel, tabla y formulario.
 - index.php        -> composición de MVC; no contiene consultas SQL.
 
 IMPORTANTE:

@@ -3,5 +3,5 @@
   	echo "Hola, ".$nombre.", yo te saludo";
   }
   
-  diHola("Jose Vicente");
+  diHola("Andres Ruiz");
 ?>

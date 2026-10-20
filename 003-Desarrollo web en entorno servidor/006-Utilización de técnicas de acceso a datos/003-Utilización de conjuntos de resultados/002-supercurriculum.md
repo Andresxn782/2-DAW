@@ -1,8 +1,8 @@
 - **curriculum**
   - **datos_personales**
-    - nombre: José Vicente
-    - apellidos: Carratalá
-    - nombre_profesional: JOCARSA
+    - nombre: Andres
+    - apellidos: Ruiz Torres
+    - nombre_profesional: VELNORA
     - año_nacimiento: 1978
     - ubicación: Valencia, España
     - perfil:

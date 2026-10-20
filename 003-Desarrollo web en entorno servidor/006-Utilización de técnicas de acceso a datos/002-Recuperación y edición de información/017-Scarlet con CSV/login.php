@@ -4,8 +4,8 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/Clases/modelo.php';
 require_once __DIR__ . '/Clases/controlador.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location:index.php'); exit(); }
-$modelo = new JocarsaModelo($config['ruta_datos'], $config['basededatos'], $config['claves_primarias']);
-$controlador = new JocarsaControlador($modelo);
+$modelo = new VelnoraModelo($config['ruta_datos'], $config['basededatos'], $config['claves_primarias']);
+$controlador = new VelnoraControlador($modelo);
 if ($controlador->login($_POST['usuario'] ?? '', $_POST['contrasena'] ?? '')) header('Location:index.php');
 else header('Location:index.php?error=1');
 exit();

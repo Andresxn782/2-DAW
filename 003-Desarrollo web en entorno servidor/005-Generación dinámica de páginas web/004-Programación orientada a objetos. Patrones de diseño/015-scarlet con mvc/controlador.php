@@ -1,8 +1,8 @@
 <?php
-class JocarsaControlador {
-    private JocarsaModelo $modelo;
+class VelnoraControlador {
+    private VelnoraModelo $modelo;
 
-    public function __construct(JocarsaModelo $modelo) {
+    public function __construct(VelnoraModelo $modelo) {
         $this->modelo = $modelo;
     }
 
@@ -10,7 +10,7 @@ class JocarsaControlador {
         $fila = $this->modelo->autentica($usuario, $contrasena);
         if (!$fila) return false;
         session_regenerate_id(true);
-        $_SESSION['llave'] = 'jocarsa';
+        $_SESSION['llave'] = 'velnora';
         $_SESSION['rol'] = $fila['rol'];
         $_SESSION['nombre'] = $fila['nombre'];
         return true;

@@ -1,6 +1,6 @@
 <?php
 
-class JocarsaJSON {
+class VelnoraJSON {
 
     public function guardarJSON($archivo, $datos) {
         $json = json_encode($datos, JSON_PRETTY_PRINT);

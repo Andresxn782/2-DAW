@@ -5,9 +5,9 @@ require_once __DIR__ . '/Clases/modelo.php';
 require_once __DIR__ . '/Clases/controlador.php';
 require_once __DIR__ . '/Clases/vista.php';
 
-$modelo = new JocarsaModelo($config['basededatos']);
-$controlador = new JocarsaControlador($modelo);
-$vista = new JocarsaVista($config);
+$modelo = new VelnoraModelo($config['basededatos']);
+$controlador = new VelnoraControlador($modelo);
+$vista = new VelnoraVista($config);
 $vista->principio();
 
 if (!isset($_SESSION['llave'])) {

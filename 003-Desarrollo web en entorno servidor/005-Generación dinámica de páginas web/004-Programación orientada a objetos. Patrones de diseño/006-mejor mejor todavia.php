@@ -1,5 +1,5 @@
 <?php
-	class JocarsaModelo{
+	class VelnoraModelo{
   
   	public function __construct($basededatos) {
         $this->bd = new PDO('sqlite:'+$basededatos);

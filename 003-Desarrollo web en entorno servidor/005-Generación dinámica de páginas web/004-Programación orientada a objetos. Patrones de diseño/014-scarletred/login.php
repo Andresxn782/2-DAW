@@ -8,7 +8,7 @@ $stmt->bindValue(':contrasena', md5($_POST['contrasena']) ?? '', SQLITE3_TEXT);
 $result = $stmt->execute();
 if($fila = $result->fetchArray(SQLITE3_ASSOC)){
     session_regenerate_id(true);
-    $_SESSION['llave'] = "jocarsa";
+    $_SESSION['llave'] = "velnora";
     $_SESSION['rol'] = $fila['rol'];
     $_SESSION['nombre'] = $fila['nombre'];
     header("Location:index.php");

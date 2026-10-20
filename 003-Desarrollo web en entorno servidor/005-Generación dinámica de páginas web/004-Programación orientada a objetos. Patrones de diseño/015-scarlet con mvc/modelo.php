@@ -1,5 +1,5 @@
 <?php
-class JocarsaModelo {
+class VelnoraModelo {
     private PDO $bd;
 
     public function __construct(string $basededatos) {

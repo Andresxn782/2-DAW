@@ -1,5 +1,5 @@
 <?php
-class JocarsaVista {
+class VelnoraVista {
     private array $config;
 
     public function __construct(array $config = []) {

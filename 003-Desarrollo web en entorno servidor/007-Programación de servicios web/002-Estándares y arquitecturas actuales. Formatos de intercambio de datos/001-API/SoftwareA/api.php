@@ -1,9 +1,9 @@
 <?php
 	echo '
   	{
-    	"nombre":"Jose Vicente",
-      "apellidos":"Carratala Sanchis",
-      "email":"info@josevicentecarratala.com
+    	"nombre":"Andres",
+      "apellidos":"Ruiz Torres",
+      "email":"info@andresruiztorres.com
     }
   ';
 ?>

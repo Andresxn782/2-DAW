@@ -1,6 +1,6 @@
 <?php
 
-class JocarsaModelo {
+class VelnoraModelo {
 
     private $bd;
 

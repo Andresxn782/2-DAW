@@ -1,8 +1,8 @@
 <?php
 
-include "JocarsaJSON.php";
+include "VelnoraJSON.php";
 
-$jocarsaJSON = new JocarsaJSON();
+$velnoraJSON = new VelnoraJSON();
 
 
 // ================================
@@ -10,8 +10,8 @@ $jocarsaJSON = new JocarsaJSON();
 // ================================
 
 $datos = [
-    "nombre" => "Jose Vicente",
-    "apellidos" => "Carratala",
+    "nombre" => "Andres",
+    "apellidos" => "Ruiz Torres",
     "profesion" => "Profesor",
     "tecnologias" => [
         "PHP",
@@ -21,14 +21,14 @@ $datos = [
     ]
 ];
 
-$jocarsaJSON->guardarJSON("datos.json", $datos);
+$velnoraJSON->guardarJSON("datos.json", $datos);
 
 
 // ================================
 // CARGAR JSON
 // ================================
 
-$datosCargados = $jocarsaJSON->cargarJSON("datos.json");
+$datosCargados = $velnoraJSON->cargarJSON("datos.json");
 
 print_r($datosCargados);
 

@@ -16,7 +16,7 @@
   </head>
   <body>
   	<header>
-    	jocarsa | software
+    	velnora | software
     </header>
     <main>
     	<nav>	

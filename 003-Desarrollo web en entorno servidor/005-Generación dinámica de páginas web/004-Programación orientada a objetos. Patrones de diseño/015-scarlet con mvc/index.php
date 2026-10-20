@@ -4,9 +4,9 @@ require_once 'modelo.php';
 require_once 'controlador.php';
 require_once 'vista.php';
 
-$modelo = new JocarsaModelo(__DIR__.'/empresa.db');
-$controlador = new JocarsaControlador($modelo);
-$vista = new JocarsaVista();
+$modelo = new VelnoraModelo(__DIR__.'/empresa.db');
+$controlador = new VelnoraControlador($modelo);
+$vista = new VelnoraVista();
 $vista->principio();
 
 if (!isset($_SESSION['llave'])) {

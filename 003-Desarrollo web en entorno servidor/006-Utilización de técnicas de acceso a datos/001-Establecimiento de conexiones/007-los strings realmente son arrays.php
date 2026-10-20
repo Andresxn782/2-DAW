@@ -1,5 +1,5 @@
 <?php
-	$nombre = "Jose Vicente";
+	$nombre = "Andres Ruiz";
   
   echo $nombre;
   echo $nombre[0];

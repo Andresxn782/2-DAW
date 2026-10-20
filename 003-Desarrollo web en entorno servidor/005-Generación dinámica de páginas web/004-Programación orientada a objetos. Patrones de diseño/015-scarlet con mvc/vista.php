@@ -1,5 +1,5 @@
 <?php
-class JocarsaVista {
+class VelnoraVista {
     private function h(mixed $v): string { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
     public function principio(string $titulo='ScarletRed'): void { ?>

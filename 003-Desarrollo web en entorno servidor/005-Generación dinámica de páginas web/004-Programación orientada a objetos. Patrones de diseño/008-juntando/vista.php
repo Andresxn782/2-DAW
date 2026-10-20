@@ -1,6 +1,6 @@
 <?php
 
-class JocarsaVista {
+class VelnoraVista {
 
     private $json;
     private $datos;

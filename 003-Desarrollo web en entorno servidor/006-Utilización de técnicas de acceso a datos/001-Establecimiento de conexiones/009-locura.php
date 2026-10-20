@@ -1,5 +1,5 @@
 <?php
-	$nombre = "Jose Vicente";
+	$nombre = "Andres Ruiz";
   $image = imagecreatefrompng("negra.png");
   
   for($i = 0;$i<strlen($nombre);$i++){

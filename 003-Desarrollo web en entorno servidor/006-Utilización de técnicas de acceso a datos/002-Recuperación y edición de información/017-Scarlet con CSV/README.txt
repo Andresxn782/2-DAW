@@ -1,4 +1,4 @@
-ScarletRed MVC - edición JocarsaCSV
+ScarletRed MVC - edición VelnoraCSV
 
 1. Ya no usa SQLite/PDO. Cada tabla es datos/empresa/<tabla>.csv.
 2. Ejecuta una vez importar_ejemplo.php para crear datos de demostración.

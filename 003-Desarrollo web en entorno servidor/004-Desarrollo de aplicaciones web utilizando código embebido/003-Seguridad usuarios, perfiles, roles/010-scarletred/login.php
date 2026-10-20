@@ -10,8 +10,8 @@
     contrasena = '".$_POST['contrasena']."';
     ");
     if ($fila = $result->fetchArray(SQLITE3_ASSOC)) {
-    	 $_SESSION['llave'] = "jocarsa"; 						// En ese caso te doy la llave
-      setcookie("llave", "jocarsa");
+    	 $_SESSION['llave'] = "velnora"; 						// En ese caso te doy la llave
+      setcookie("llave", "velnora");
       header("Location:index.php"); 			// Vamos al escritorio
     }else{
     	header("Location:index.php");	// Volvemos al login

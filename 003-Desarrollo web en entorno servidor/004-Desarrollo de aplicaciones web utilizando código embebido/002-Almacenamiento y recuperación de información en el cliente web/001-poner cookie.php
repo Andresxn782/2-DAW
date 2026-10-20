@@ -1,3 +1,3 @@
 <?php
-	setcookie("nombre", "Jose Vicente");
+	setcookie("nombre", "Andres Ruiz");
 ?>

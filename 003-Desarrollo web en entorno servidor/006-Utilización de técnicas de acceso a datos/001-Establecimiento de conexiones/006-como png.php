@@ -1,6 +1,6 @@
 <?php
 
-$image = imagecreatefromjpeg("josevicente.jpeg");
+$image = imagecreatefromjpeg("andresruiz.jpeg");
 
 // Color que queremos pintar
 $r = 255;

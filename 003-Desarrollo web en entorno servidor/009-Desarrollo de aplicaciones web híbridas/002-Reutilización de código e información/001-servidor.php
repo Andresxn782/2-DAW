@@ -1,8 +1,8 @@
 <?php
 	$array = [
-  	"nombre"=>"Jose Vicente",
-    "apellidos"=>"Carratala Sanchis",
-    "email"=>"info@jocarsa.com",
+  	"nombre"=>"Andres",
+    "apellidos"=>"Ruiz Torres",
+    "email"=>"info@velnora.com",
     "edad"=>"48"
   ];
   

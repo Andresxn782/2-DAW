@@ -1,6 +1,6 @@
 <?php
 
-class JocarsaCSV {
+class VelnoraCSV {
 
     private $archivo;
 
@@ -50,14 +50,14 @@ class JocarsaCSV {
 // EJEMPLO DE USO
 // =============================
 
-$clientes = new JocarsaCSV("datos.csv");
+$clientes = new VelnoraCSV("datos.csv");
 
 
 // SELECT *
 //var_dump($clientes->listar());
 
 
-// WHERE nombre = Jose Vicente
+// WHERE nombre = Andres Ruiz
 var_dump(
     $clientes->buscar("nombre", "Elena")
 );

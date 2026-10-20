@@ -1,0 +1,53 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "API de socios de Velnora",
+		"version": "1.0.0",
+		"description": "Consulta de los socios del gimnasio Velnora. Hecha por Andres Ruiz."
+	},
+	"servers": [
+		{ "url": "http://localhost/2-DAW/Mis ejercicios/003-Desarrollo web en entorno servidor/007-Programación de servicios web/1.-Ejercicios/003-Generación de un servicio web/003-API/SoftwareA" }
+	],
+	"components": {
+		"securitySchemes": {
+			"claveApi": { "type": "apiKey", "in": "header", "name": "X-API-Key" }
+		},
+		"schemas": {
+			"Socio": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer", "example": 2 },
+					"nombre": { "type": "string", "example": "Carlos" },
+					"apellidos": { "type": "string", "example": "Pérez Vidal" },
+					"email": { "type": "string", "example": "carlos.perez@velnora.es" },
+					"plan": { "type": "string", "example": "Spinning" }
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"error": { "type": "boolean", "example": true },
+					"mensaje": { "type": "string", "example": "API Key incorrecta o no proporcionada" }
+				}
+			}
+		}
+	},
+	"security": [ { "claveApi": [] } ],
+	"paths": {
+		"/api.php": {
+			"get": {
+				"summary": "Lista los socios o devuelve uno",
+				"description": "Sin parámetros devuelve todos. Con plan filtra por plan. Con id devuelve un solo socio.",
+				"parameters": [
+					{ "name": "plan", "in": "query", "required": false, "description": "Plan del socio (Yoga, Spinning…)", "schema": { "type": "string" } },
+					{ "name": "id", "in": "query", "required": false, "description": "Identificador del socio", "schema": { "type": "integer" } }
+				],
+				"responses": {
+					"200": { "description": "Lista con total y socios, o un socio si se pasa id" },
+					"401": { "description": "Falta la clave o es incorrecta" },
+					"404": { "description": "No existe un socio con ese id" }
+				}
+			}
+		}
+	}
+}

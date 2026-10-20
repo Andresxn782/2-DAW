@@ -1,0 +1,512 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "API de clases de Velnora",
+		"version": "1.0.0",
+		"description": "Servicio web REST para consultar las clases del gimnasio Velnora, reservar plazas y gestionar el horario. Hecho por Andres Ruiz."
+	},
+	"servers": [
+		{
+			"url": "/api/index.php",
+			"description": "Ruta relativa a la carpeta del proyecto. También vale /api/index.php?ruta=/clases"
+		}
+	],
+	"security": [
+		{
+			"claveApi": []
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"claveApi": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "X-API-Key",
+				"description": "velnora_app_2026 (consultar y reservar) o velnora_admin_2026 (además, gestionar clases)"
+			}
+		},
+		"schemas": {
+			"Clase": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"example": 1
+					},
+					"nombre": {
+						"type": "string",
+						"example": "Spinning"
+					},
+					"monitor": {
+						"type": "string",
+						"example": "Andres Ruiz"
+					},
+					"dia": {
+						"type": "string",
+						"example": "Lunes"
+					},
+					"hora": {
+						"type": "string",
+						"example": "18:00"
+					},
+					"duracion": {
+						"type": "integer",
+						"example": 45
+					},
+					"aforo": {
+						"type": "integer",
+						"example": 20
+					},
+					"ocupadas": {
+						"type": "integer",
+						"example": 2
+					},
+					"libres": {
+						"type": "integer",
+						"example": 18
+					}
+				}
+			},
+			"ClaseNueva": {
+				"type": "object",
+				"required": [
+					"nombre",
+					"monitor",
+					"dia",
+					"hora",
+					"duracion",
+					"aforo"
+				],
+				"properties": {
+					"nombre": {
+						"type": "string",
+						"example": "Zumba"
+					},
+					"monitor": {
+						"type": "string",
+						"example": "Andres Ruiz"
+					},
+					"dia": {
+						"type": "string",
+						"example": "Viernes"
+					},
+					"hora": {
+						"type": "string",
+						"example": "17:00"
+					},
+					"duracion": {
+						"type": "integer",
+						"example": 45
+					},
+					"aforo": {
+						"type": "integer",
+						"example": 18
+					}
+				}
+			},
+			"Reserva": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"example": 7
+					},
+					"socio_id": {
+						"type": "integer",
+						"example": 3
+					},
+					"socio": {
+						"type": "string",
+						"example": "Nerea Gil"
+					},
+					"creada": {
+						"type": "string",
+						"example": "2026-10-20 18:02:11"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"example": true
+					},
+					"mensaje": {
+						"type": "string",
+						"example": "La clase Pilates está completa"
+					},
+					"errores": {
+						"type": "object",
+						"example": {
+							"hora": "Formato HH:MM"
+						}
+					}
+				}
+			}
+		}
+	},
+	"paths": {
+		"/estado": {
+			"get": {
+				"summary": "Comprueba que el servicio funciona",
+				"security": [],
+				"responses": {
+					"200": {
+						"description": "Nombre, versión y hora del servidor"
+					}
+				}
+			}
+		},
+		"/clases": {
+			"get": {
+				"summary": "Lista las clases de la semana",
+				"parameters": [
+					{
+						"name": "dia",
+						"in": "query",
+						"required": false,
+						"description": "Lunes, Martes…",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "monitor",
+						"in": "query",
+						"required": false,
+						"description": "Parte del nombre del monitor",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "total y lista de clases ordenada por día y hora",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"total": {
+											"type": "integer"
+										},
+										"clases": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Clase"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Falta la clave o no es válida",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crea una clase (solo admin)",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ClaseNueva"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "La clase creada; cabecera Location con su dirección",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Clase"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "La clave no es de administración",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Datos no válidos, con el detalle en errores",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/clases/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "Identificador",
+					"schema": {
+						"type": "integer"
+					}
+				}
+			],
+			"get": {
+				"summary": "Devuelve una clase",
+				"responses": {
+					"200": {
+						"description": "La clase con sus plazas libres",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Clase"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No existe",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Modifica los campos enviados (solo admin)",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ClaseNueva"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "La clase modificada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Clase"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "El aforo nuevo es menor que las reservas",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Datos no válidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Borra la clase y sus reservas (solo admin)",
+				"responses": {
+					"200": {
+						"description": "Nombre de la clase borrada y reservas anuladas"
+					},
+					"404": {
+						"description": "No existe",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/clases/{id}/reservas": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "Identificador",
+					"schema": {
+						"type": "integer"
+					}
+				}
+			],
+			"get": {
+				"summary": "Lista las reservas de una clase",
+				"responses": {
+					"200": {
+						"description": "La clase y sus reservas",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"clase": {
+											"$ref": "#/components/schemas/Clase"
+										},
+										"reservas": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Reserva"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No existe la clase",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Reserva una plaza para un socio",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": [
+									"socio_id"
+								],
+								"properties": {
+									"socio_id": {
+										"type": "integer",
+										"example": 3
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Id de la reserva y la clase actualizada"
+					},
+					"404": {
+						"description": "No existe la clase o el socio",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Clase completa o socio ya apuntado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Falta socio_id",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/reservas/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "Identificador",
+					"schema": {
+						"type": "integer"
+					}
+				}
+			],
+			"delete": {
+				"summary": "Cancela una reserva",
+				"responses": {
+					"200": {
+						"description": "Id de la reserva cancelada"
+					},
+					"404": {
+						"description": "No existe",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/socios": {
+			"get": {
+				"summary": "Lista los socios",
+				"responses": {
+					"200": {
+						"description": "total y lista de socios"
+					}
+				}
+			}
+		}
+	}
+}

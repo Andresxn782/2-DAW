@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Acceso Velnora</title>
+		<style>
+			body{
+				font-family:Verdana, sans-serif;
+				background:#0f172a;
+				color:#e2e8f0;
+			}
+			form{
+				width:320px;
+				margin:100px auto;
+				padding:25px;
+				background:#1e293b;
+				border-radius:14px;
+				border-top:4px solid #2dd4bf;
+			}
+			h1{
+				margin-top:0;
+				font-size:20px;
+				color:#2dd4bf;
+			}
+			input{
+				width:100%;
+				padding:10px;
+				margin:6px 0;
+				box-sizing:border-box;
+				border-radius:8px;
+				border:1px solid #334155;
+				background:#0f172a;
+				color:#e2e8f0;
+			}
+			input[type=submit]{
+				background:#2dd4bf;
+				color:#0f172a;
+				font-weight:bold;
+				cursor:pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<form method="POST" action="006-login.php">
+			<h1>Acceso al panel</h1>
+			<input type="text" name="usuario" placeholder="Usuario">
+			<input type="password" name="contrasena" placeholder="Contraseña">
+			<input type="submit" value="Entrar">
+		</form>
+	</body>
+</html>

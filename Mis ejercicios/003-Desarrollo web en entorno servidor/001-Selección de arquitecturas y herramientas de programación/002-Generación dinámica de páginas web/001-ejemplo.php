@@ -1,0 +1,2 @@
+<!-- Página estática: la hora está escrita a mano y nunca cambia -->
+<p>Horario actualizado el <time>2026-09-15 15:21:00</time></p>

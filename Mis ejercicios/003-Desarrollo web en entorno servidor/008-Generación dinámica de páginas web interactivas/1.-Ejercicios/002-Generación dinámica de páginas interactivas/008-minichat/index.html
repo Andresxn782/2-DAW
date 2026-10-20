@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Velnora Sala</title>
+		<link rel="stylesheet" href="../chat.css">
+	</head>
+	<body>
+		<div id="entrada">
+			<h3>Velnora Sala</h3>
+			<p>¿Cómo te llamas?</p>
+			<input type="text" id="usuario" maxlength="30">
+			<button id="entrar">Entrar</button>
+		</div>
+		<div id="chat">
+			<h3>Velnora Sala</h3>
+			<main></main>
+			<p id="aviso"></p>
+			<nav>
+				<input type="text" id="mensaje" maxlength="200" placeholder="Escribe y pulsa Intro">
+			</nav>
+		</div>
+		<script>
+			let principal = document.querySelector("main")
+			let aviso = document.querySelector("#aviso")
+			let ultimoId = 0
+			let temporizador = null
+
+			// Si ya entré otro día, el nombre está en localStorage y voy directo al chat
+			if(localStorage.getItem("usuario")){
+				mostrarChat()
+			}
+
+			document.querySelector("#entrar").onclick = function(){
+				let entrada = document.querySelector("#usuario")
+				if(entrada.value.trim() === ""){
+					return
+				}
+				localStorage.setItem("usuario", entrada.value.trim())
+				mostrarChat()
+			}
+
+			function mostrarChat(){
+				document.querySelector("#entrada").style.display = "none"
+				document.querySelector("#chat").style.display = "flex"
+				document.querySelector("#mensaje").focus()
+				bucle()
+			}
+
+			function bucle(){
+				fetch("servidor.php?accion=get&desde=" + ultimoId)
+				.then(function(resultado){
+					// Compruebo si el servidor ha devuelto un error HTTP
+					if(!resultado.ok){
+						throw new Error("Error HTTP: " + resultado.status)
+					}
+					return resultado.json()
+				})
+				.then(function(datos){
+					// Ya no vacío main: solo añado los mensajes nuevos
+					datos.forEach(pintarMensaje)
+					if(datos.length > 0){
+						principal.scrollTop = principal.scrollHeight
+					}
+					aviso.textContent = ""
+				})
+				.catch(function(error){
+					aviso.textContent = "Sin conexión con el servidor"
+				})
+				clearTimeout(temporizador)
+				temporizador = setTimeout(bucle, 1000)
+			}
+
+			function pintarMensaje(mensaje){
+				let articulo = document.createElement("article")
+				if(mensaje.usuario === localStorage.getItem("usuario")){
+					articulo.classList.add("mio")
+				}
+				let usuario = document.createElement("span")
+				usuario.className = "autor"
+				usuario.textContent = mensaje.usuario
+				let texto = document.createElement("p")
+				texto.textContent = mensaje.mensaje
+				let fecha = document.createElement("time")
+				fecha.textContent = mensaje.fecha.substring(11, 16)
+				articulo.append(usuario, texto, fecha)
+				principal.appendChild(articulo)
+				ultimoId = Math.max(ultimoId, mensaje.id * 1)
+			}
+
+			let inputMensaje = document.querySelector("#mensaje")
+			inputMensaje.onkeyup = function(e){
+				if(e.key !== "Enter" || this.value.trim() === ""){
+					return
+				}
+				// Envío por POST: los datos no van en la URL
+				let datos = new FormData()
+				datos.append("usuario", localStorage.getItem("usuario"))
+				datos.append("mensaje", this.value)
+				this.value = ""
+				fetch("servidor.php?accion=post", { method: "POST", body: datos })
+				.then(function(resultado){
+					return resultado.json().then(function(respuesta){
+						if(!resultado.ok){
+							throw new Error(respuesta.error)
+						}
+						// No espero al siguiente segundo: pido ya los mensajes nuevos
+						bucle()
+					})
+				})
+				.catch(function(error){
+					aviso.textContent = error.message
+				})
+			}
+		</script>
+	</body>
+</html>

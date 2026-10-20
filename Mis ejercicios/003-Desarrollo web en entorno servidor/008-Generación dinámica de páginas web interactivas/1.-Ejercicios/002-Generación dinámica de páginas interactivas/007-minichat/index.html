@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>Velnora Sala</title>
+		<link rel="stylesheet" href="../chat.css">
+	</head>
+	<body>
+		<div id="entrada">
+			<h3>Velnora Sala</h3>
+			<p>¿Cómo te llamas?</p>
+			<input type="text" id="usuario">
+			<button id="entrar">Entrar</button>
+		</div>
+		<div id="chat">
+			<h3>Velnora Sala</h3>
+			<main>
+			</main>
+			<nav>
+				<input type="text" id="mensaje" placeholder="Escribe y pulsa Intro">
+			</nav>
+		</div>
+		<script>
+			let boton = document.querySelector("#entrar")
+			boton.onclick = function(){
+				let entrada = document.querySelector("#usuario")
+				if(entrada.value.trim() === ""){
+					return
+				}
+				localStorage.setItem("usuario", entrada.value.trim())
+				document.querySelector("#entrada").style.display = "none"
+				document.querySelector("#chat").style.display = "flex"
+			}
+
+			let temporizador = setTimeout(bucle, 1000)
+
+			function bucle(){
+				fetch("servidor.php?accion=get")
+				.then(function(resultado){ return resultado.json() })
+				.then(function(datos){
+					// Primero vacío main y luego creo un article por mensaje
+					let principal = document.querySelector("main")
+					principal.innerHTML = ""
+					datos.forEach(function(mensaje){
+						let articulo = document.createElement("article")
+						let usuario = document.createElement("span")
+						usuario.className = "autor"
+						// textContent y no innerHTML: si alguien escribe <script>, se ve como texto
+						usuario.textContent = mensaje.usuario
+						let texto = document.createElement("p")
+						texto.textContent = mensaje.mensaje
+						let fecha = document.createElement("time")
+						fecha.textContent = mensaje.fecha
+						articulo.appendChild(usuario)
+						articulo.appendChild(texto)
+						articulo.appendChild(fecha)
+						principal.appendChild(articulo)
+					})
+				})
+				clearTimeout(temporizador)
+				temporizador = setTimeout(bucle, 1000)
+			}
+		</script>
+	</body>
+</html>

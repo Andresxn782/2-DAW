@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>Buscador de ejercicios - Velnora</title>
+		<style>
+			body{font-family:Arial, sans-serif;max-width:600px;margin:30px auto;}
+			input{padding:8px;width:100%;}
+			#ficha{margin-top:16px;padding:12px;border-left:4px solid #16a34a;background:#f0fdf4;display:none;}
+		</style>
+	</head>
+	<body>
+		<h1>Buscador de ejercicios</h1>
+		<input type="text" id="ejercicio" list="ejercicios" placeholder="Escribe al menos dos letras: sent, press, remo...">
+		<datalist id="ejercicios"></datalist>
+		<div id="ficha"></div>
+		<script>
+			let entrada = document.querySelector("#ejercicio")
+			let datalist = document.querySelector("#ejercicios")
+			let ficha = document.querySelector("#ficha")
+			let encontrados = []
+			let espera = null
+
+			entrada.oninput = function(){
+				// Espero 250 ms desde la última tecla para no lanzar una petición por letra
+				clearTimeout(espera)
+				espera = setTimeout(buscar, 250)
+				mostrarFicha()
+			}
+
+			function buscar(){
+				let clave = entrada.value
+				fetch("004-busqueda con filtro.php?clave=" + encodeURIComponent(clave))
+				.then(function(resultado){ return resultado.json() })
+				.then(function(datos){
+					encontrados = datos
+					// Vacío las sugerencias anteriores antes de poner las nuevas
+					datalist.innerHTML = ""
+					datos.forEach(function(ejercicio){
+						let opcion = document.createElement("option")
+						opcion.value = ejercicio.nombre
+						opcion.label = ejercicio.grupo
+						datalist.appendChild(opcion)
+					})
+					mostrarFicha()
+				})
+			}
+
+			// Si lo escrito coincide con un ejercicio, enseño su ficha
+			function mostrarFicha(){
+				let elegido = encontrados.find(function(ejercicio){ return ejercicio.nombre === entrada.value })
+				if(elegido){
+					ficha.textContent = elegido.nombre + " · Grupo: " + elegido.grupo + " · Material: " + elegido.material
+					ficha.style.display = "block"
+				} else {
+					ficha.style.display = "none"
+				}
+			}
+		</script>
+	</body>
+</html>

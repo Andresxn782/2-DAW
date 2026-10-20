@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>Velnora Sala</title>
+		<link rel="stylesheet" href="../chat.css">
+	</head>
+	<body>
+		<div id="entrada">
+			<h3>Velnora Sala</h3>
+			<p>¿Cómo te llamas?</p>
+			<input type="text" id="usuario">
+			<button id="entrar">Entrar</button>
+		</div>
+		<div id="chat">
+			<h3>Velnora Sala</h3>
+			<main>
+			</main>
+			<nav>
+				<input type="text" id="mensaje" placeholder="Escribe y pulsa Intro">
+			</nav>
+		</div>
+		<script>
+			let boton = document.querySelector("#entrar")
+			boton.onclick = function(){
+				let entrada = document.querySelector("#usuario")
+				if(entrada.value.trim() === ""){
+					return
+				}
+				localStorage.setItem("usuario", entrada.value.trim())
+				document.querySelector("#entrada").style.display = "none"
+				document.querySelector("#chat").style.display = "flex"
+			}
+			// En este paso el cliente todavía no pide nada:
+			// abre servidor.php?accion=get en el navegador para ver el JSON
+		</script>
+	</body>
+</html>

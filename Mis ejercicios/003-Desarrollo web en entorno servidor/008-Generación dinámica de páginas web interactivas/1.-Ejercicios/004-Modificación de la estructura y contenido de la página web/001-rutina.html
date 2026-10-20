@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Mi rutina - Velnora</title>
+		<style>
+			body{font-family:Arial, sans-serif;max-width:640px;margin:20px auto;padding:0 16px;}
+			form{display:flex;gap:8px;flex-wrap:wrap;}
+			form input{padding:8px;flex:1;min-width:120px;}
+			form input[type=number]{flex:0 0 80px;min-width:0;}
+			ol{padding:0;list-style:none;}
+			li{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #e5e7eb;border-radius:8px;margin-top:8px;background:white;}
+			li span{flex:1;}
+			li.hecho{background:#dcfce7;}
+			li.hecho span{text-decoration:line-through;}
+			li button{border:none;background:#f3f4f6;border-radius:6px;padding:4px 8px;cursor:pointer;}
+			#totales{font-weight:bold;}
+			.vacio{color:#6b7280;}
+		</style>
+	</head>
+	<body>
+		<h1>Mi rutina de hoy</h1>
+		<form id="nuevo">
+			<input name="ejercicio" placeholder="Ejercicio" required>
+			<input name="series" type="number" min="1" max="10" value="4" required>
+			<input name="repeticiones" type="number" min="1" max="50" value="10" required>
+			<button>Añadir</button>
+		</form>
+		<p id="totales"></p>
+		<ol id="rutina"></ol>
+		<script>
+			let lista = document.querySelector("#rutina")
+			let formulario = document.querySelector("#nuevo")
+
+			// Crea el <li> de un ejercicio con sus botones
+			function crearFila(ejercicio){
+				let fila = document.createElement("li")
+				fila.dataset.series = ejercicio.series
+				if(ejercicio.hecho){
+					fila.classList.add("hecho")
+				}
+				let check = document.createElement("input")
+				check.type = "checkbox"
+				check.checked = ejercicio.hecho
+				check.onchange = function(){
+					fila.classList.toggle("hecho", check.checked)
+					actualizar()
+				}
+				let texto = document.createElement("span")
+				texto.textContent = ejercicio.nombre + " · " + ejercicio.series + " x " + ejercicio.repeticiones
+				let subir = document.createElement("button")
+				subir.textContent = "↑"
+				subir.title = "Subir"
+				subir.onclick = function(){
+					if(fila.previousElementSibling){
+						lista.insertBefore(fila, fila.previousElementSibling)
+						actualizar()
+					}
+				}
+				let bajar = document.createElement("button")
+				bajar.textContent = "↓"
+				bajar.title = "Bajar"
+				bajar.onclick = function(){
+					if(fila.nextElementSibling){
+						lista.insertBefore(fila.nextElementSibling, fila)
+						actualizar()
+					}
+				}
+				let borrar = document.createElement("button")
+				borrar.textContent = "✕"
+				borrar.title = "Quitar"
+				borrar.onclick = function(){
+					fila.remove()
+					actualizar()
+				}
+				fila.append(check, texto, subir, bajar, borrar)
+				// Guardo los datos en la propia fila para poder reconstruir la rutina
+				fila.datos = ejercicio
+				return fila
+			}
+
+			formulario.onsubmit = function(evento){
+				evento.preventDefault()
+				lista.appendChild(crearFila({
+					nombre: formulario.ejercicio.value.trim(),
+					series: formulario.series.value * 1,
+					repeticiones: formulario.repeticiones.value * 1,
+					hecho: false
+				}))
+				formulario.ejercicio.value = ""
+				formulario.ejercicio.focus()
+				actualizar()
+			}
+
+			// Recalcula los totales y guarda la rutina en el navegador
+			function actualizar(){
+				let filas = lista.querySelectorAll("li")
+				let series = 0
+				let hechas = 0
+				let rutina = []
+				filas.forEach(function(fila){
+					fila.datos.hecho = fila.classList.contains("hecho")
+					series += fila.datos.series
+					if(fila.datos.hecho){
+						hechas += fila.datos.series
+					}
+					rutina.push(fila.datos)
+				})
+				let totales = document.querySelector("#totales")
+				if(filas.length === 0){
+					totales.textContent = "Todavía no hay ejercicios"
+					totales.className = "vacio"
+				} else {
+					totales.textContent = filas.length + " ejercicios · " + hechas + " de " + series + " series hechas"
+					totales.className = ""
+				}
+				localStorage.setItem("rutinaVelnora", JSON.stringify(rutina))
+			}
+
+			// Al abrir la página recupero la rutina guardada
+			let guardada = JSON.parse(localStorage.getItem("rutinaVelnora") || "null") || [
+				{ nombre: "Sentadilla", series: 4, repeticiones: 8, hecho: false },
+				{ nombre: "Press de banca", series: 4, repeticiones: 10, hecho: false },
+				{ nombre: "Plancha", series: 3, repeticiones: 1, hecho: false }
+			]
+			guardada.forEach(function(ejercicio){ lista.appendChild(crearFila(ejercicio)) })
+			actualizar()
+		</script>
+	</body>
+</html>

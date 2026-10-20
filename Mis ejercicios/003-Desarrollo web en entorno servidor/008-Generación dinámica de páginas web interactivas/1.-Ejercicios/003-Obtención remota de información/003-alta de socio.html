@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Alta de socio - Velnora</title>
+		<style>
+			body{font-family:Arial, sans-serif;background:#f7f7f2;margin:0;padding:16px;}
+			form{max-width:460px;margin:20px auto;background:white;padding:24px;border-radius:12px;border:1px solid #e5e7eb;}
+			h1{margin-top:0;color:#16a34a;}
+			label{display:block;font-weight:bold;margin-top:12px;}
+			input, select{width:100%;box-sizing:border-box;padding:9px;border:1px solid #d1d5db;border-radius:8px;font:inherit;margin-top:4px;}
+			small{display:block;min-height:16px;font-size:13px;}
+			.mal input, .mal select{border-color:#b91c1c;}
+			.mal small{color:#b91c1c;}
+			.bien input, .bien select{border-color:#16a34a;}
+			.bien small{color:#16a34a;}
+			.check{font-weight:normal;}
+			.check input{width:auto;}
+			button{margin-top:16px;background:#16a34a;color:white;border:none;padding:10px 18px;border-radius:8px;font:inherit;cursor:pointer;}
+			#resultado{margin-top:12px;font-weight:bold;}
+		</style>
+	</head>
+	<body>
+		<!-- novalidate: los avisos los pongo yo con JavaScript en vez de las burbujas del navegador -->
+		<form id="alta" novalidate>
+			<h1>Hazte socio</h1>
+			<div class="campo" data-campo="nombre">
+				<label>Nombre <input name="nombre" required minlength="2" maxlength="30"></label>
+				<small></small>
+			</div>
+			<div class="campo" data-campo="apellidos">
+				<label>Apellidos <input name="apellidos" required minlength="2" maxlength="50"></label>
+				<small></small>
+			</div>
+			<div class="campo" data-campo="email">
+				<label>Email <input name="email" type="email" required></label>
+				<small></small>
+			</div>
+			<div class="campo" data-campo="plan">
+				<label>Plan
+					<select name="plan" required>
+						<option value="">Elige uno</option>
+						<option>Musculación</option>
+						<option>Spinning</option>
+						<option>Crossfit</option>
+						<option>Yoga</option>
+						<option>Pilates</option>
+						<option>Natación</option>
+					</select>
+				</label>
+				<small></small>
+			</div>
+			<div class="campo" data-campo="nacimiento">
+				<label>Fecha de nacimiento <input name="nacimiento" type="date" required></label>
+				<small></small>
+			</div>
+			<label class="check"><input type="checkbox" id="saltar"> Saltar la validación del navegador (para probar el servidor)</label>
+			<button>Darme de alta</button>
+			<p id="resultado"></p>
+		</form>
+		<script>
+			let formulario = document.querySelector("#alta")
+			let esperaEmail = null
+
+			// Pone el mensaje debajo del campo y lo marca en rojo o en verde
+			function marcar(campo, mensaje, correcto){
+				let caja = document.querySelector('[data-campo="' + campo + '"]')
+				caja.classList.toggle("mal", !correcto)
+				caja.classList.toggle("bien", correcto)
+				caja.querySelector("small").textContent = mensaje
+			}
+
+			// Validación en el navegador, campo a campo
+			function validarCampo(entrada){
+				if(document.querySelector("#saltar").checked){
+					return true
+				}
+				if(entrada.name === "nacimiento" && entrada.value !== ""){
+					let edad = (Date.now() - new Date(entrada.value)) / (365.25 * 24 * 3600 * 1000)
+					entrada.setCustomValidity(edad < 16 ? "Hay que tener al menos 16 años" : "")
+				}
+				if(!entrada.checkValidity()){
+					marcar(entrada.name, entrada.validationMessage, false)
+					return false
+				}
+				if(entrada.name !== "email"){
+					marcar(entrada.name, "", true)
+				}
+				return true
+			}
+
+			formulario.querySelectorAll("input[name], select").forEach(function(entrada){
+				entrada.addEventListener("blur", function(){ validarCampo(entrada) })
+				entrada.addEventListener("input", function(){
+					if(entrada.closest(".mal")){
+						validarCampo(entrada)
+					}
+				})
+			})
+
+			// Mientras se escribe el email, pregunto al servidor si está libre
+			formulario.email.addEventListener("input", function(){
+				clearTimeout(esperaEmail)
+				let email = this.value
+				esperaEmail = setTimeout(function(){
+					fetch("001-comprobar email.php?email=" + encodeURIComponent(email))
+					.then(function(resultado){ return resultado.json() })
+					.then(function(datos){
+						if(!datos.valido){
+							marcar("email", "Escribe un email completo", false)
+						} else if(!datos.disponible){
+							marcar("email", "Ese email ya es de un socio", false)
+						} else {
+							marcar("email", "Email libre", true)
+						}
+					})
+				}, 300)
+			})
+
+			formulario.addEventListener("submit", function(evento){
+				// No dejo que el navegador recargue la página
+				evento.preventDefault()
+				let saltar = document.querySelector("#saltar").checked
+				let todoBien = true
+				formulario.querySelectorAll("input[name], select").forEach(function(entrada){
+					if(!validarCampo(entrada)){
+						todoBien = false
+					}
+				})
+				if(!todoBien && !saltar){
+					return
+				}
+
+				fetch("002-validar.php", { method: "POST", body: new FormData(formulario) })
+				.then(function(resultado){ return resultado.json() })
+				.then(function(datos){
+					let resultado = document.querySelector("#resultado")
+					if(datos.ok){
+						resultado.style.color = "#16a34a"
+						resultado.textContent = "¡Bienvenido a Velnora! Tu número de socio es el " + datos.id
+						formulario.reset()
+						document.querySelectorAll(".campo").forEach(function(caja){ caja.classList.remove("bien", "mal") })
+					} else {
+						resultado.style.color = "#b91c1c"
+						resultado.textContent = "El servidor ha encontrado errores"
+						for(let campo in datos.errores){
+							marcar(campo, datos.errores[campo], false)
+						}
+					}
+				})
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,75 @@
+/* Estilo de Velnora Sala, compartido por los pasos 004 a 008 */
+html,body{width:100%;height:100%;padding:0px;margin:0px;}
+p{padding:0px;margin:0px;}
+body{display:flex;background:#1f2937;justify-content:center;align-items:center;font-family:Arial, sans-serif;}
+
+#entrada{
+	width:220px;padding:20px;background:white;border-radius:10px;
+	display:flex;flex-direction:column;gap:10px;
+}
+
+#chat{
+	display:none;
+	width:400px;
+	max-width:calc(100% - 32px);
+	height:600px;
+	max-height:calc(100% - 32px);
+	padding:20px;
+	box-sizing:border-box;
+	background:white;
+	flex-direction:column;
+	gap:10px;
+	border-radius:10px;
+	box-shadow:0px 10px 30px rgba(0,0,0,0.3);
+}
+
+#chat h3{margin:0;color:#16a34a;}
+
+#chat main{
+	flex:1;
+	background:#f3f4f6;
+	padding:15px;
+	border-radius:8px;
+	overflow-y:auto;
+	display:flex;
+	flex-direction:column;
+	gap:10px;
+}
+
+#chat article{
+	background:#bbf7d0;
+	padding:8px 14px;
+	border-radius:15px 15px 15px 3px;
+	max-width:75%;
+	width:max-content;
+	font-size:14px;
+	box-shadow:0px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Mis propios mensajes, a la derecha y en naranja */
+#chat article.mio{
+	align-self:flex-end;
+	background:#fed7aa;
+	border-radius:15px 15px 3px 15px;
+}
+
+#chat article .autor{font-weight:bold;font-size:12px;}
+#chat article time{font-size:11px;color:#6b7280;display:block;}
+
+#chat nav{display:flex;width:100%;}
+
+#chat nav input{
+	width:100%;
+	padding:12px 15px;
+	border:1px solid #ccc;
+	border-radius:20px;
+	outline:none;
+	font-size:14px;
+}
+
+#chat nav input:focus{
+	border-color:#16a34a;
+	box-shadow:0 0 0 3px rgba(22,163,74,0.2);
+}
+
+#aviso{color:#b91c1c;font-size:13px;min-height:16px;}

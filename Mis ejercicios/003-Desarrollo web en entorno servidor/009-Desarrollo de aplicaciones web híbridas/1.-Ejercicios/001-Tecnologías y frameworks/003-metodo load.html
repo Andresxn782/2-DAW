@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery load - Velnora</title>
+		<script src="../libs/jquery-3.7.1.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				// load() pide el archivo al servidor y lo mete dentro del elemento
+				$("#contenedor").load("consejo.txt")
+			})
+		</script>
+	</head>
+	<body>
+		<div id="contenedor">Cargando...</div>
+	</body>
+</html>

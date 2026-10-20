@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>Ficha del monitor - Velnora</title>
+	</head>
+	<body>
+		<h1>Ficha del monitor</h1>
+		<ul id="ficha"></ul>
+		<script>
+			// El servidor solo da datos en bruto; el cliente los aprovecha para sacar otros nuevos
+			fetch("001-servidor.php")
+			.then(function(resultado){ return resultado.json() })
+			.then(function(datos){
+				console.log(datos)
+				let hoy = new Date()
+				let edad = Math.floor((hoy - new Date(datos.nacimiento)) / (365.25 * 24 * 3600 * 1000))
+				let meses = Math.floor((hoy - new Date(datos.alta)) / (30.44 * 24 * 3600 * 1000))
+				let lineas = [
+					datos.nombre + " " + datos.apellidos + " (" + edad + " años)",
+					"Lleva " + meses + " meses en Velnora",
+					"Da " + datos.clases_semana + " clases a la semana, unas " + datos.clases_semana * 4 + " al mes"
+				]
+				let lista = document.querySelector("#ficha")
+				lineas.forEach(function(linea){
+					let elemento = document.createElement("li")
+					elemento.textContent = linea
+					lista.appendChild(elemento)
+				})
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Cuadro de mando - Velnora</title>
+		<script src="../libs/chart-4.4.1.umd.js"></script>
+		<style>
+			body{font-family:"Segoe UI", Arial, sans-serif;background:#f3f4f6;margin:0;padding:16px;color:#1f2937;}
+			.contenido{max-width:1100px;margin:0 auto;}
+			.kpis{display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:12px;margin-bottom:16px;}
+			.kpi{background:white;border-radius:12px;padding:14px;border:1px solid #e5e7eb;}
+			.kpi span{display:block;color:#6b7280;font-size:13px;}
+			.kpi strong{display:block;font-size:24px;margin:2px 0;}
+			.kpi small{display:block;color:#6b7280;}
+			.paneles{display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:16px;}
+			section{background:white;border-radius:12px;padding:16px;border:1px solid #e5e7eb;overflow-x:auto;}
+			section.ancha{grid-column:1 / -1;}
+			h2{font-size:16px;margin-top:0;}
+			table.calor{border-collapse:separate;border-spacing:2px;font-size:12px;}
+			table.calor td{width:38px;height:26px;text-align:center;border-radius:4px;}
+			table.calor th{font-weight:normal;color:#6b7280;padding:0 4px;}
+			.error{background:#fee2e2;padding:14px;border-radius:10px;}
+			.nota{color:#6b7280;font-size:13px;}
+		</style>
+	</head>
+	<body>
+		<div class="contenido">
+			<h1>Velnora · Accesos 2026</h1>
+			<div id="kpis" class="kpis"></div>
+			<div class="paneles">
+				<section class="ancha">
+					<h2>Mapa de calor: media de visitas por día y hora</h2>
+					<table class="calor" id="calor"></table>
+				</section>
+				<section><h2>Visitas y socios activos por mes</h2><canvas id="graficaMeses"></canvas></section>
+				<section><h2>Visitas por plan</h2><canvas id="graficaPlanes"></canvas></section>
+			</div>
+			<p class="nota" id="nota"></p>
+		</div>
+		<template id="plantillaKpi">
+			<div class="kpi"><span></span><strong></strong><small></small></div>
+		</template>
+		<script>
+			let numero = new Intl.NumberFormat("es-ES")
+
+			fetch("004-datos cuadro de mando.php")
+			.then(function(respuesta){
+				return respuesta.json().then(function(datos){
+					if(!respuesta.ok){
+						throw new Error(datos.error)
+					}
+					return datos
+				})
+			})
+			.then(pintar)
+			.catch(function(error){
+				let aviso = document.createElement("p")
+				aviso.className = "error"
+				aviso.textContent = error.message
+				document.querySelector("#kpis").replaceWith(aviso)
+			})
+
+			function kpi(titulo, valor, detalle){
+				let copia = document.querySelector("#plantillaKpi").content.cloneNode(true)
+				copia.querySelector("span").textContent = titulo
+				copia.querySelector("strong").textContent = valor
+				copia.querySelector("small").textContent = detalle
+				document.querySelector("#kpis").appendChild(copia)
+			}
+
+			function pintar(d){
+				kpi("Visitas", numero.format(d.total_visitas), d.dias + " días")
+				kpi("Media diaria", numero.format(d.media_diaria), "visitas al día")
+				kpi("Socios distintos", numero.format(d.socios_distintos), "han venido alguna vez")
+				kpi("Duración media", numero.format(d.minutos_medios) + " min", "por visita")
+				kpi("Hora punta", d.hora_punta.dia + " " + d.hora_punta.hora + ":00", numero.format(d.hora_punta.media) + " visitas de media")
+				kpi("Mejor hora para ir", d.mejor_hora.dia + " " + d.mejor_hora.hora + ":00", "solo " + numero.format(d.mejor_hora.media) + " de media")
+				kpi("Día récord", d.dia_record.fecha.split("-").reverse().join("/"), numero.format(d.dia_record.visitas) + " visitas")
+
+				pintarCalor(d)
+
+				let nombresMes = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+				new Chart(document.querySelector("#graficaMeses"), {
+					data: {
+						labels: d.meses.map(function(m){ return nombresMes[m.mes.substring(5) * 1 - 1] }),
+						datasets: [
+							{ type: "bar", label: "Visitas", data: d.meses.map(function(m){ return m.visitas }), backgroundColor: "#16a34a", yAxisID: "y" },
+							{ type: "line", label: "Socios activos", data: d.meses.map(function(m){ return m.socios_activos }), borderColor: "#ea580c", backgroundColor: "#ea580c", yAxisID: "y2" }
+						]
+					},
+					options: { scales: { y: { beginAtZero: true }, y2: { beginAtZero: true, position: "right", grid: { drawOnChartArea: false } } } }
+				})
+				new Chart(document.querySelector("#graficaPlanes"), {
+					type: "bar",
+					data: { labels: d.planes.map(function(p){ return p.plan }), datasets: [{ label: "Visitas", data: d.planes.map(function(p){ return p.visitas }), backgroundColor: "#2563eb" }] },
+					options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { y: { ticks: { autoSkip: false } } } }
+				})
+
+				document.querySelector("#nota").textContent = d.desde_cache
+					? "Indicadores leídos de la caché."
+					: "Indicadores calculados ahora en " + d.segundos_calculo + " s; la próxima vez saldrán de la caché."
+			}
+
+			// Cada celda se colorea según lo llena que está esa hora comparada con la punta
+			function pintarCalor(d){
+				let tabla = document.querySelector("#calor")
+				let cabecera = tabla.insertRow()
+				cabecera.appendChild(document.createElement("th"))
+				d.horas.forEach(function(hora){
+					let celda = document.createElement("th")
+					celda.textContent = hora
+					cabecera.appendChild(celda)
+				})
+				d.mapa_calor.forEach(function(fila){
+					let tr = tabla.insertRow()
+					let nombre = document.createElement("th")
+					nombre.textContent = fila.dia.substring(0, 3)
+					tr.appendChild(nombre)
+					fila.valores.forEach(function(valor, i){
+						let celda = tr.insertCell()
+						let intensidad = valor / d.hora_punta.media
+						celda.style.background = "rgba(22, 163, 74, " + (0.08 + intensidad * 0.92).toFixed(2) + ")"
+						celda.style.color = intensidad > 0.55 ? "white" : "#1f2937"
+						celda.textContent = Math.round(valor)
+						celda.title = fila.dia + " a las " + d.horas[i] + ":00 → " + valor + " visitas de media"
+					})
+				})
+			}
+		</script>
+	</body>
+</html>

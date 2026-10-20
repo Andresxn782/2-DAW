@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery getJSON - Velnora</title>
+		<script src="../libs/jquery-3.7.1.min.js"></script>
+		<style>
+			blockquote{font-size:20px;border-left:4px solid #16a34a;padding-left:12px;}
+		</style>
+	</head>
+	<body>
+		<h1>Frase motivadora</h1>
+		<blockquote id="frase"></blockquote>
+		<button id="otra">Otra</button>
+		<script>
+			$(function(){
+				let frases = []
+				// $.getJSON pide el JSON y ya me lo da convertido en objetos
+				$.getJSON("frases.json", function(datos){
+					frases = datos
+					mostrar()
+				})
+				function mostrar(){
+					let elegida = frases[Math.floor(Math.random() * frases.length)]
+					$("#frase").text("«" + elegida.frase + "» · " + elegida.autor).hide().fadeIn(400)
+				}
+				$("#otra").on("click", mostrar)
+			})
+		</script>
+	</body>
+</html>

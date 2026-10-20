@@ -1,0 +1,604 @@
+{
+    "entrenos": [
+        {
+            "id": 4,
+            "titulo": "Tren superior II",
+            "categoria": "Fuerza",
+            "nivel": "Iniciación",
+            "minutos": 30,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-10-28"
+        },
+        {
+            "id": 56,
+            "titulo": "Estiramientos de oficina II",
+            "categoria": "Movilidad",
+            "nivel": "Avanzado",
+            "minutos": 40,
+            "monitor": "Iván Rey",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-10-25"
+        },
+        {
+            "id": 39,
+            "titulo": "Halterofilia básica",
+            "categoria": "Crossfit",
+            "nivel": "Medio",
+            "minutos": 15,
+            "monitor": "Marta Lozano",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-10-24"
+        },
+        {
+            "id": 11,
+            "titulo": "HIIT exprés",
+            "categoria": "Cardio",
+            "nivel": "Avanzado",
+            "minutos": 20,
+            "monitor": "Lucía Martín",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-10-22"
+        },
+        {
+            "id": 8,
+            "titulo": "Espalda fuerte II",
+            "categoria": "Fuerza",
+            "nivel": "Iniciación",
+            "minutos": 30,
+            "monitor": "Iván Rey",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-10-13"
+        },
+        {
+            "id": 22,
+            "titulo": "Saludo al sol II",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Marta Lozano",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-10-12"
+        },
+        {
+            "id": 14,
+            "titulo": "Quemagrasa II",
+            "categoria": "Cardio",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Lucía Martín",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-10-11"
+        },
+        {
+            "id": 5,
+            "titulo": "Piernas de acero",
+            "categoria": "Fuerza",
+            "nivel": "Medio",
+            "minutos": 20,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-10-05"
+        },
+        {
+            "id": 54,
+            "titulo": "Hombros sanos II",
+            "categoria": "Movilidad",
+            "nivel": "Avanzado",
+            "minutos": 60,
+            "monitor": "Iván Rey",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-10-04"
+        },
+        {
+            "id": 49,
+            "titulo": "Pilates intenso",
+            "categoria": "Pilates",
+            "nivel": "Medio",
+            "minutos": 45,
+            "monitor": "Lucía Martín",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-09-21"
+        },
+        {
+            "id": 19,
+            "titulo": "Cardio sin impacto",
+            "categoria": "Cardio",
+            "nivel": "Avanzado",
+            "minutos": 25,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-09-20"
+        },
+        {
+            "id": 6,
+            "titulo": "Piernas de acero II",
+            "categoria": "Fuerza",
+            "nivel": "Medio",
+            "minutos": 40,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-09-10"
+        },
+        {
+            "id": 40,
+            "titulo": "Halterofilia básica II",
+            "categoria": "Crossfit",
+            "nivel": "Iniciación",
+            "minutos": 15,
+            "monitor": "Lucía Martín",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-09-09"
+        },
+        {
+            "id": 12,
+            "titulo": "HIIT exprés II",
+            "categoria": "Cardio",
+            "nivel": "Iniciación",
+            "minutos": 60,
+            "monitor": "Marta Lozano",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-09-07"
+        },
+        {
+            "id": 53,
+            "titulo": "Hombros sanos",
+            "categoria": "Movilidad",
+            "nivel": "Avanzado",
+            "minutos": 25,
+            "monitor": "Marta Lozano",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-09-07"
+        },
+        {
+            "id": 51,
+            "titulo": "Movilidad de cadera",
+            "categoria": "Movilidad",
+            "nivel": "Iniciación",
+            "minutos": 40,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-08-28"
+        },
+        {
+            "id": 33,
+            "titulo": "AMRAP 20",
+            "categoria": "Crossfit",
+            "nivel": "Iniciación",
+            "minutos": 15,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-08-26"
+        },
+        {
+            "id": 35,
+            "titulo": "EMOM de potencia",
+            "categoria": "Crossfit",
+            "nivel": "Iniciación",
+            "minutos": 40,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-08-25"
+        },
+        {
+            "id": 23,
+            "titulo": "Yoga para corredores",
+            "categoria": "Yoga",
+            "nivel": "Medio",
+            "minutos": 25,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-08-21"
+        },
+        {
+            "id": 42,
+            "titulo": "Core de pilates II",
+            "categoria": "Pilates",
+            "nivel": "Avanzado",
+            "minutos": 30,
+            "monitor": "Marta Lozano",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-08-16"
+        },
+        {
+            "id": 41,
+            "titulo": "Core de pilates",
+            "categoria": "Pilates",
+            "nivel": "Medio",
+            "minutos": 25,
+            "monitor": "Iván Rey",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-08-11"
+        },
+        {
+            "id": 37,
+            "titulo": "Chipper Velnora",
+            "categoria": "Crossfit",
+            "nivel": "Medio",
+            "minutos": 45,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-08-05"
+        },
+        {
+            "id": 3,
+            "titulo": "Tren superior",
+            "categoria": "Fuerza",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Iván Rey",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-08-04"
+        },
+        {
+            "id": 2,
+            "titulo": "Full body II",
+            "categoria": "Fuerza",
+            "nivel": "Iniciación",
+            "minutos": 40,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-08-02"
+        },
+        {
+            "id": 45,
+            "titulo": "Suelo pélvico",
+            "categoria": "Pilates",
+            "nivel": "Iniciación",
+            "minutos": 20,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-07-28"
+        },
+        {
+            "id": 58,
+            "titulo": "Rodillas fuertes II",
+            "categoria": "Movilidad",
+            "nivel": "Medio",
+            "minutos": 60,
+            "monitor": "Marta Lozano",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-07-24"
+        },
+        {
+            "id": 32,
+            "titulo": "WOD de iniciación II",
+            "categoria": "Crossfit",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Lucía Martín",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-07-18"
+        },
+        {
+            "id": 28,
+            "titulo": "Yoga restaurativo II",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-07-11"
+        },
+        {
+            "id": 15,
+            "titulo": "Intervalos en cinta",
+            "categoria": "Cardio",
+            "nivel": "Medio",
+            "minutos": 20,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-07-10"
+        },
+        {
+            "id": 48,
+            "titulo": "Pilates postural II",
+            "categoria": "Pilates",
+            "nivel": "Iniciación",
+            "minutos": 20,
+            "monitor": "Iván Rey",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-07-09"
+        },
+        {
+            "id": 59,
+            "titulo": "Calentamiento completo",
+            "categoria": "Movilidad",
+            "nivel": "Iniciación",
+            "minutos": 15,
+            "monitor": "Iván Rey",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-06-27"
+        },
+        {
+            "id": 17,
+            "titulo": "Comba y saltos",
+            "categoria": "Cardio",
+            "nivel": "Iniciación",
+            "minutos": 20,
+            "monitor": "Iván Rey",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-06-24"
+        },
+        {
+            "id": 29,
+            "titulo": "Equilibrio y respiración",
+            "categoria": "Yoga",
+            "nivel": "Medio",
+            "minutos": 60,
+            "monitor": "Lucía Martín",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-06-24"
+        },
+        {
+            "id": 10,
+            "titulo": "Empuje y tracción II",
+            "categoria": "Fuerza",
+            "nivel": "Avanzado",
+            "minutos": 60,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-06-19"
+        },
+        {
+            "id": 21,
+            "titulo": "Saludo al sol",
+            "categoria": "Yoga",
+            "nivel": "Avanzado",
+            "minutos": 30,
+            "monitor": "Lucía Martín",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-06-19"
+        },
+        {
+            "id": 36,
+            "titulo": "EMOM de potencia II",
+            "categoria": "Crossfit",
+            "nivel": "Medio",
+            "minutos": 25,
+            "monitor": "Iván Rey",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-06-15"
+        },
+        {
+            "id": 16,
+            "titulo": "Intervalos en cinta II",
+            "categoria": "Cardio",
+            "nivel": "Avanzado",
+            "minutos": 25,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-06-14"
+        },
+        {
+            "id": 13,
+            "titulo": "Quemagrasa",
+            "categoria": "Cardio",
+            "nivel": "Avanzado",
+            "minutos": 45,
+            "monitor": "Lucía Martín",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-06-13"
+        },
+        {
+            "id": 57,
+            "titulo": "Rodillas fuertes",
+            "categoria": "Movilidad",
+            "nivel": "Medio",
+            "minutos": 45,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-06-12"
+        },
+        {
+            "id": 34,
+            "titulo": "AMRAP 20 II",
+            "categoria": "Crossfit",
+            "nivel": "Avanzado",
+            "minutos": 40,
+            "monitor": "Marta Lozano",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-05-25"
+        },
+        {
+            "id": 25,
+            "titulo": "Flexibilidad total",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 60,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-05-20"
+        },
+        {
+            "id": 7,
+            "titulo": "Espalda fuerte",
+            "categoria": "Fuerza",
+            "nivel": "Medio",
+            "minutos": 25,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-05-18"
+        },
+        {
+            "id": 24,
+            "titulo": "Yoga para corredores II",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 25,
+            "monitor": "Iván Rey",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-05-17"
+        },
+        {
+            "id": 50,
+            "titulo": "Pilates intenso II",
+            "categoria": "Pilates",
+            "nivel": "Iniciación",
+            "minutos": 25,
+            "monitor": "Iván Rey",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-05-01"
+        },
+        {
+            "id": 55,
+            "titulo": "Estiramientos de oficina",
+            "categoria": "Movilidad",
+            "nivel": "Avanzado",
+            "minutos": 40,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-04-24"
+        },
+        {
+            "id": 46,
+            "titulo": "Suelo pélvico II",
+            "categoria": "Pilates",
+            "nivel": "Medio",
+            "minutos": 60,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-04-21"
+        },
+        {
+            "id": 52,
+            "titulo": "Movilidad de cadera II",
+            "categoria": "Movilidad",
+            "nivel": "Avanzado",
+            "minutos": 15,
+            "monitor": "Lucía Martín",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-04-10"
+        },
+        {
+            "id": 60,
+            "titulo": "Calentamiento completo II",
+            "categoria": "Movilidad",
+            "nivel": "Iniciación",
+            "minutos": 45,
+            "monitor": "Marta Lozano",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-04-09"
+        },
+        {
+            "id": 43,
+            "titulo": "Pilates con fitball",
+            "categoria": "Pilates",
+            "nivel": "Avanzado",
+            "minutos": 25,
+            "monitor": "Marta Lozano",
+            "descripcion": "Una sesión pensada para hacer en casa sin apenas material.",
+            "publicado": "2026-04-07"
+        },
+        {
+            "id": 18,
+            "titulo": "Comba y saltos II",
+            "categoria": "Cardio",
+            "nivel": "Avanzado",
+            "minutos": 40,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-04-03"
+        },
+        {
+            "id": 20,
+            "titulo": "Cardio sin impacto II",
+            "categoria": "Cardio",
+            "nivel": "Medio",
+            "minutos": 20,
+            "monitor": "Lucía Martín",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-04-02"
+        },
+        {
+            "id": 44,
+            "titulo": "Pilates con fitball II",
+            "categoria": "Pilates",
+            "nivel": "Avanzado",
+            "minutos": 20,
+            "monitor": "Lucía Martín",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-03-23"
+        },
+        {
+            "id": 30,
+            "titulo": "Equilibrio y respiración II",
+            "categoria": "Yoga",
+            "nivel": "Avanzado",
+            "minutos": 20,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Ideal para empezar la semana con energía.",
+            "publicado": "2026-03-15"
+        },
+        {
+            "id": 31,
+            "titulo": "WOD de iniciación",
+            "categoria": "Crossfit",
+            "nivel": "Iniciación",
+            "minutos": 20,
+            "monitor": "Marta Lozano",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-03-02"
+        },
+        {
+            "id": 1,
+            "titulo": "Full body",
+            "categoria": "Fuerza",
+            "nivel": "Iniciación",
+            "minutos": 60,
+            "monitor": "Iván Rey",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-02-26"
+        },
+        {
+            "id": 47,
+            "titulo": "Pilates postural",
+            "categoria": "Pilates",
+            "nivel": "Avanzado",
+            "minutos": 45,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Termina con una vuelta a la calma y estiramientos.",
+            "publicado": "2026-02-25"
+        },
+        {
+            "id": 27,
+            "titulo": "Yoga restaurativo",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 20,
+            "monitor": "Lucía Martín",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-02-18"
+        },
+        {
+            "id": 26,
+            "titulo": "Flexibilidad total II",
+            "categoria": "Yoga",
+            "nivel": "Iniciación",
+            "minutos": 30,
+            "monitor": "Marta Lozano",
+            "descripcion": "Trabajo por bloques con descansos cortos y mucha intensidad.",
+            "publicado": "2026-02-14"
+        },
+        {
+            "id": 38,
+            "titulo": "Chipper Velnora II",
+            "categoria": "Crossfit",
+            "nivel": "Avanzado",
+            "minutos": 25,
+            "monitor": "Andres Ruiz",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-01-23"
+        },
+        {
+            "id": 9,
+            "titulo": "Empuje y tracción",
+            "categoria": "Fuerza",
+            "nivel": "Avanzado",
+            "minutos": 30,
+            "monitor": "Lucía Martín",
+            "descripcion": "Explicamos cada ejercicio paso a paso para hacerlo con buena técnica.",
+            "publicado": "2026-01-22"
+        }
+    ]
+}

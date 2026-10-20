@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Velnora TV</title>
+		<link rel="stylesheet" href="../estilos.css">
+	</head>
+	<body>
+		<header>
+			<h1>Velnora <span>TV</span></h1>
+			<form class="filtros" id="filtros">
+				<input type="search" name="q" placeholder="Buscar título o monitor">
+				<select name="categoria"><option value="">Todas las categorías</option></select>
+				<select name="nivel">
+					<option value="">Todos los niveles</option>
+					<option>Iniciación</option>
+					<option>Medio</option>
+					<option>Avanzado</option>
+				</select>
+			</form>
+			<p class="total" id="total"></p>
+		</header>
+		<main></main>
+		<!-- Cuando este div se ve en pantalla, cargo la página siguiente -->
+		<div id="centinela"></div>
+
+		<dialog id="ficha">
+			<img src="" alt="">
+			<h2></h2>
+			<p class="datos"></p>
+			<p class="descripcion"></p>
+			<form method="dialog"><button class="mas">Cerrar</button></form>
+		</dialog>
+
+		<template id="video">
+			<article tabindex="0">
+				<img src="" alt="" loading="lazy">
+				<h3></h3>
+				<p></p>
+			</article>
+		</template>
+
+		<script>
+			let pagina = 0
+			let cargando = false
+			let hayMas = true
+			let peticion = 0
+			let contenedor = document.querySelector("main")
+			let plantilla = document.querySelector("#video")
+			let filtros = document.querySelector("#filtros")
+			let ficha = document.querySelector("#ficha")
+
+			function cargar(){
+				if(cargando || !hayMas){
+					return
+				}
+				cargando = true
+				// Guardo el número de petición: si cambian los filtros mientras llega,
+				// descarto la respuesta vieja
+				let numero = ++peticion
+				let parametros = new URLSearchParams(new FormData(filtros))
+				parametros.set("pagina", pagina)
+				fetch("servidor.php?" + parametros)
+				.then(function(resultado){ return resultado.json() })
+				.then(function(datos){
+					if(numero !== peticion){
+						return
+					}
+					rellenarCategorias(datos.categorias)
+					document.querySelector("#total").textContent = datos.total + " vídeos"
+					datos.entrenos.forEach(pintarVideo)
+					if(datos.total === 0){
+						let aviso = document.createElement("p")
+						aviso.className = "aviso"
+						aviso.textContent = "No hay vídeos con esos filtros."
+						contenedor.appendChild(aviso)
+					}
+					hayMas = datos.hayMas
+					pagina++
+				})
+				.finally(function(){
+					if(numero === peticion){
+						cargando = false
+						// Si la pantalla es grande y el centinela sigue a la vista, el observador
+						// no vuelve a avisar (no ha cambiado nada): cargo otra página yo
+						if(hayMas && centinelaVisible()){
+							cargar()
+						}
+					}
+				})
+			}
+
+			function pintarVideo(dato){
+				let instancia = plantilla.content.cloneNode(true)
+				let articulo = instancia.querySelector("article")
+				instancia.querySelector("h3").textContent = dato.titulo
+				instancia.querySelector("p").textContent = dato.categoria + " · " + dato.nivel + " · " + dato.minutos + " min"
+				instancia.querySelector("img").src = "../repositorio/miniatura.php?id=" + dato.id
+				instancia.querySelector("img").alt = dato.titulo
+				articulo.onclick = function(){ abrirFicha(dato) }
+				articulo.onkeydown = function(e){
+					if(e.key === "Enter"){
+						abrirFicha(dato)
+					}
+				}
+				contenedor.appendChild(instancia)
+			}
+
+			function abrirFicha(dato){
+				ficha.querySelector("img").src = "../repositorio/miniatura.php?id=" + dato.id
+				ficha.querySelector("h2").textContent = dato.titulo
+				ficha.querySelector(".datos").textContent = dato.categoria + " · " + dato.nivel + " · " + dato.minutos + " min · con " + dato.monitor + " · publicado el " + dato.publicado
+				ficha.querySelector(".descripcion").textContent = dato.descripcion
+				ficha.showModal()
+			}
+
+			// Las opciones del desplegable se crean una sola vez con lo que dice el servidor
+			function rellenarCategorias(categorias){
+				let desplegable = filtros.categoria
+				if(desplegable.options.length > 1){
+					return
+				}
+				categorias.forEach(function(categoria){
+					desplegable.add(new Option(categoria, categoria))
+				})
+			}
+
+			// Al cambiar un filtro empiezo de cero
+			let espera = null
+			filtros.addEventListener("input", function(){
+				clearTimeout(espera)
+				espera = setTimeout(function(){
+					pagina = 0
+					hayMas = true
+					cargando = false
+					contenedor.replaceChildren()
+					cargar()
+				}, 250)
+			})
+			filtros.addEventListener("submit", function(e){ e.preventDefault() })
+
+			function centinelaVisible(){
+				return document.querySelector("#centinela").getBoundingClientRect().top < innerHeight + 400
+			}
+
+			// Scroll infinito: el navegador me avisa cuando el centinela aparece
+			let observador = new IntersectionObserver(function(entradas){
+				if(entradas[0].isIntersecting){
+					cargar()
+				}
+			}, { rootMargin: "400px" })
+			observador.observe(document.querySelector("#centinela"))
+		</script>
+	</body>
+</html>

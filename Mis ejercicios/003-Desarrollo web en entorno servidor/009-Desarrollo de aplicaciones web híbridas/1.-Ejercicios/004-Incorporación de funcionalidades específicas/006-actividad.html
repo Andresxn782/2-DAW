@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Actividad - Comunidad Velnora</title>
+		<!-- Funcionalidad específica de un tercero: las gráficas las dibuja Chart.js -->
+		<script src="../libs/chart-4.4.1.umd.js"></script>
+		<style>
+			body{font-family:"Segoe UI", Arial, sans-serif;background:#f3f4f6;margin:0;padding:16px;}
+			main{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:16px;}
+			section{background:white;border-radius:12px;padding:16px;border:1px solid #e5e7eb;}
+			section.ancha{grid-column:1 / -1;}
+			h1{max-width:900px;margin:0 auto 16px;}
+			h2{font-size:16px;margin-top:0;}
+		</style>
+	</head>
+	<body>
+		<h1>Actividad de la comunidad</h1>
+		<main>
+			<section class="ancha"><h2>Publicaciones en los últimos 30 días</h2><canvas id="graficaDias"></canvas></section>
+			<section><h2>Reacciones por tipo</h2><canvas id="graficaReacciones"></canvas></section>
+			<section><h2>Socios con más seguidores</h2><canvas id="graficaPopulares"></canvas></section>
+		</main>
+		<script>
+			fetch("006-datos actividad.php")
+			.then(function(respuesta){ return respuesta.json() })
+			.then(function(datos){
+				new Chart(document.querySelector("#graficaDias"), {
+					type: "line",
+					data: { labels: datos.publicaciones.etiquetas, datasets: [{ label: "Publicaciones", data: datos.publicaciones.valores, borderColor: "#16a34a", backgroundColor: "rgba(22,163,74,0.15)", fill: true, tension: 0.3 }] },
+					options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+				})
+				new Chart(document.querySelector("#graficaReacciones"), {
+					type: "doughnut",
+					data: { labels: datos.reacciones.etiquetas, datasets: [{ data: datos.reacciones.valores, backgroundColor: ["#ea580c", "#16a34a", "#2563eb"] }] }
+				})
+				new Chart(document.querySelector("#graficaPopulares"), {
+					type: "bar",
+					data: { labels: datos.populares.etiquetas, datasets: [{ label: "Seguidores", data: datos.populares.valores, backgroundColor: "#16a34a" }] },
+					options: { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
+				})
+			})
+		</script>
+	</body>
+</html>

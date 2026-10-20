@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery ready - Velnora</title>
+		<script src="../libs/jquery-3.7.1.min.js"></script>
+		<script>
+			// $(selector).metodo(parametros)
+			// El script está en el head, antes que el div: espero a que la página esté lista
+			$(document).ready(function(){
+				$("#contenedor").text("La página ya está cargada")
+				$("button").on("click", function(){
+					$(this).toggleClass("activo").text($(this).hasClass("activo") ? "Apuntado" : "Apuntarme a Spinning")
+				})
+			})
+		</script>
+		<style>
+			.activo{background:#16a34a;color:white;}
+		</style>
+	</head>
+	<body>
+		<div id="contenedor"></div>
+		<button>Apuntarme a Spinning</button>
+	</body>
+</html>

@@ -1,0 +1,40 @@
+*{box-sizing:border-box}
+:root{--fondo:#0f172a;--panel:#1e293b;--borde:#334155;--texto:#e2e8f0;--suave:#94a3b8;--acento:#2dd4bf;--acento2:#134e4a;--peligro:#f87171}
+body{margin:0;font-family:Verdana,sans-serif;background:var(--fondo);color:var(--texto);font-size:14px}
+a{color:var(--acento);text-decoration:none}
+header{height:60px;background:#020617;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:3px solid var(--acento)}
+.marca strong{color:var(--acento);letter-spacing:3px;font-size:18px}.marca span{color:var(--suave);margin-left:12px}
+.usuario{display:flex;gap:16px;align-items:center}.usuario span{color:var(--suave)}
+main{display:flex;min-height:calc(100vh - 60px)}
+nav{width:230px;background:var(--panel);padding:18px 12px}
+.nav-titulo{color:var(--suave);font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:0 10px 10px}
+.nav-link{display:block;color:var(--texto);padding:10px;border-radius:8px;margin-bottom:4px;text-transform:capitalize}
+.nav-link:hover,.nav-link.activa{background:var(--acento2);color:#5eead4}
+section{flex:1;padding:28px 32px;min-width:0}
+.titulo-pagina{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.titulo-pagina h1{margin:0 0 4px;font-size:24px;text-transform:capitalize}.titulo-pagina p{margin:0;color:var(--suave)}
+.caja{background:var(--panel);border-radius:14px;padding:22px}
+.boton{display:inline-block;padding:9px 14px;border-radius:8px;border:1px solid var(--acento);color:var(--acento);cursor:pointer;background:transparent;font-family:inherit}
+.boton-primario{background:var(--acento);color:#0f172a;font-weight:bold}
+table{border-collapse:collapse;width:100%}
+th{text-align:left;color:var(--acento);border-bottom:2px solid var(--acento);text-transform:capitalize}
+th,td{padding:11px 10px}
+tbody tr:nth-child(even){background:#0f172a}
+tbody tr:hover{background:#172554}
+.acciones{white-space:nowrap}.acciones a{margin-right:12px}.acciones .eliminar{color:var(--peligro)}
+.formulario-caja{max-width:720px}
+.campo{margin-bottom:16px}.campo label{display:block;margin-bottom:6px;color:var(--suave);text-transform:capitalize}
+.campo input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)}
+.campo input:focus{outline:2px solid var(--acento)}
+.campo input[readonly]{opacity:.6}
+.login-pantalla{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px}
+.login-caja{width:360px}
+.login-logo{width:70px;height:70px;margin:0 auto 14px;border-radius:50%;background:var(--acento);color:#0f172a;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold}
+.login-caja h1{text-align:center;margin:0;letter-spacing:3px}
+.login-caja>p{text-align:center;color:var(--suave);margin:6px 0 22px}
+.login-caja form{background:var(--panel);padding:26px;border-radius:14px;border-top:4px solid var(--acento)}
+.login-caja input[type=text],.login-caja input[type=password]{width:100%;padding:10px;margin:6px 0 16px;border-radius:8px;border:1px solid var(--borde);background:var(--fondo);color:var(--texto)}
+.boton-login{width:100%}
+.aviso-error{background:#7f1d1d;padding:12px;border-radius:8px;margin-bottom:14px}
+.aviso-ok{background:var(--acento2);padding:12px;border-radius:8px;margin-bottom:14px}
+@media(max-width:800px){main{flex-direction:column}nav{width:100%}section{padding:18px}.tabla-contenedor{overflow:auto}}

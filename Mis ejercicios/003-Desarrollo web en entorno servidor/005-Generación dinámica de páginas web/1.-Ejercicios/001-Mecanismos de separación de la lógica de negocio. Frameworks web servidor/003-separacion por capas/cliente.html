@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Socios Velnora</title>
+		<style>
+			body{font-family:Arial, sans-serif;background:#f0fdfa;}
+			table{border-collapse:collapse;margin:20px auto;background:white;}
+			th, td{padding:8px 12px;border:1px solid #99f6e4;}
+			th{background:#0f766e;color:white;}
+			#total{text-align:center;}
+		</style>
+	</head>
+	<body>
+		<!-- El HTML solo tiene la estructura; los datos llegan después desde controlador.php -->
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Apellidos</th>
+					<th>Email</th>
+					<th>Plan</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<p id="total"></p>
+
+		<script>
+			fetch("controlador.php")
+			.then(function(resultado){
+				return resultado.json()
+			})
+			.then(function(datos){
+				let tbody = document.querySelector("tbody")
+				datos.forEach(function(socio){
+					let fila = document.createElement("tr")
+					// textContent en lugar de innerHTML para no inyectar HTML de la base de datos
+					;["id", "nombre", "apellidos", "email", "plan"].forEach(function(campo){
+						let celda = document.createElement("td")
+						celda.textContent = socio[campo]
+						fila.appendChild(celda)
+					})
+					tbody.appendChild(fila)
+				})
+				document.querySelector("#total").textContent = datos.length + " socios"
+			})
+		</script>
+	</body>
+</html>

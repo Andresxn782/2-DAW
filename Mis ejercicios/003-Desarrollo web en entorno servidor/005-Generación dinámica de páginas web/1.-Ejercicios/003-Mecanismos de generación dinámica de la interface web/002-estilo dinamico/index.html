@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Velnora</title>
+		<style>
+			:root{
+				--colorcorporativo:gray;
+			}
+			html,body{padding:0;margin:0;width:100%;height:100%;font-family:Arial, sans-serif;}
+			body{display:flex;flex-direction:column;}
+			header{background:var(--colorcorporativo);color:white;padding:15px;font-size:20px;}
+			main{display:flex;flex:1;}
+			nav{background:var(--colorcorporativo);opacity:0.85;color:white;flex:1;padding:15px;}
+			nav a{display:block;color:white;margin-bottom:8px;}
+			section{flex:5;padding:20px;}
+			.logo{display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;background:white;color:var(--colorcorporativo);border-radius:50%;margin-right:10px;font-weight:bold;}
+		</style>
+	</head>
+	<body>
+		<!-- La página arranca gris y se colorea cuando llega la configuración -->
+		<header><span class="logo" id="logo">?</span><span id="nombre">Cargando...</span></header>
+		<main>
+			<nav>
+				<a href="#">Socios</a>
+				<a href="#">Clases</a>
+				<a href="#">Material</a>
+			</nav>
+			<section>
+				<h1 id="eslogan"></h1>
+				<p>Esta página es HTML estático: el color, el logo y los textos los pide a leeconfiguracion.php.</p>
+			</section>
+		</main>
+		<script>
+			fetch("leeconfiguracion.php")
+			.then(function(resultado){return resultado.json()})
+			.then(function(datos){
+				document.documentElement.style.setProperty("--colorcorporativo", datos.color)
+				document.querySelector("#logo").textContent = datos.logo
+				document.querySelector("#nombre").textContent = datos.nombre + " | gimnasio"
+				document.querySelector("#eslogan").textContent = datos.eslogan
+				document.title = datos.nombre
+			})
+		</script>
+	</body>
+</html>

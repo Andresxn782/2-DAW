@@ -1,0 +1,4 @@
+id,socio_id,fecha,importe,metodo
+1,1,2026-10-01,39.9,Tarjeta
+2,2,2026-01-10,360,Transferencia
+3,3,2026-09-15,105,Bizum

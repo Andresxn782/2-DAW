@@ -1,0 +1,21 @@
+{
+    "nombre": "Lucía",
+    "apellidos": "Martín Soler",
+    "plan": "Anual",
+    "contacto": {
+        "email": "lucia.martin@velnora.es",
+        "telefonos": {
+            "movil": "611223344"
+        }
+    },
+    "reservas": [
+        {
+            "clase": "Spinning",
+            "fecha": "2026-10-19"
+        },
+        {
+            "clase": "Yoga",
+            "fecha": "2026-10-21"
+        }
+    ]
+}

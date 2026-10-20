@@ -1,0 +1,54 @@
+- **gimnasio**
+  - **datos_generales**
+    - nombre: Velnora
+    - tipo: gimnasio y centro de entrenamiento
+    - ubicación: Valencia, España
+    - apertura: 2019
+    - lema: Entrena con cabeza
+  - **instalaciones**
+    - salas:
+      - sala de musculación:
+        - superficie: 400 m²
+        - zonas: peso libre, máquinas guiadas, funcional
+      - sala de ciclo:
+        - bicicletas: 20
+      - sala polivalente:
+        - usos: yoga, pilates, estiramientos
+      - piscina:
+        - calles: 4
+        - longitud: 25 m
+    - servicios:
+      - vestuarios con taquillas
+      - fisioterapia
+      - nutricionista
+      - aparcamiento para bicicletas
+  - **horario**
+    - lunes a viernes: 07:00 - 23:00
+    - sábados: 09:00 - 20:00
+    - domingos: 09:00 - 14:00
+  - **planes**
+    - mensual: 39,90 €
+    - trimestral: 105 €
+    - anual: 360 €
+    - descuentos:
+      - estudiantes: 15 %
+      - contrato de 12 meses: 10 %
+  - **equipo**
+    - monitores:
+      - Marcos Velasco: crossfit y spinning
+      - Ainhoa Ferrer: yoga y pilates
+      - Rubén Soler: musculación
+    - recepción:
+      - turno de mañana
+      - turno de tarde
+  - **clases_dirigidas**
+    - spinning: lunes y jueves
+    - yoga: martes y viernes
+    - crossfit: miércoles
+    - pilates: jueves
+    - natación: sábados
+  - **tecnologia**
+    - web de reservas: PHP y SQLite
+    - panel de gestión: Pulso
+    - tienda online: Velnora Tienda
+    - copias de seguridad: diarias

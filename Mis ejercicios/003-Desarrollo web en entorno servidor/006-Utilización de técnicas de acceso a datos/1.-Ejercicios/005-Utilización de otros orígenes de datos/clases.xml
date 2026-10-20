@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<horario gimnasio="Velnora" temporada="2026-2027">
+	<clase id="1" sala="Ciclo">
+		<nombre>Spinning</nombre>
+		<monitor>Marcos Velasco</monitor>
+		<dia>Lunes</dia>
+		<hora>18:00</hora>
+		<plazas>20</plazas>
+		<nivel>Medio</nivel>
+	</clase>
+	<clase id="2" sala="Polivalente">
+		<nombre>Yoga</nombre>
+		<monitor>Ainhoa Ferrer</monitor>
+		<dia>Martes</dia>
+		<hora>10:00</hora>
+		<plazas>15</plazas>
+		<nivel>Bajo</nivel>
+	</clase>
+	<clase id="3" sala="Musculación">
+		<nombre>Crossfit</nombre>
+		<monitor>Marcos Velasco</monitor>
+		<dia>Miércoles</dia>
+		<hora>19:30</hora>
+		<plazas>12</plazas>
+		<nivel>Alto</nivel>
+	</clase>
+	<clase id="4" sala="Polivalente">
+		<nombre>Pilates</nombre>
+		<monitor>Ainhoa Ferrer</monitor>
+		<dia>Jueves</dia>
+		<hora>17:00</hora>
+		<plazas>15</plazas>
+		<nivel>Bajo</nivel>
+	</clase>
+	<clase id="5" sala="Piscina">
+		<nombre>Natación</nombre>
+		<monitor>Rubén Soler</monitor>
+		<dia>Sábado</dia>
+		<hora>11:00</hora>
+		<plazas>16</plazas>
+		<nivel>Medio</nivel>
+	</clase>
+</horario>

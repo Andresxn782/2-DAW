@@ -1,0 +1,28 @@
+{
+  "nombre": "Velnora",
+  "ubicacion": "Valencia, España",
+  "apertura": 2019,
+  "lema": "Entrena con cabeza",
+  "horario": {
+    "lunes_a_viernes": "07:00 - 23:00",
+    "sabados": "09:00 - 20:00",
+    "domingos": "09:00 - 14:00"
+  },
+  "instalaciones": [
+    {"sala": "Musculación", "superficie_m2": 400, "zonas": ["Peso libre", "Máquinas guiadas", "Funcional"]},
+    {"sala": "Ciclo", "bicicletas": 20},
+    {"sala": "Polivalente", "usos": ["Yoga", "Pilates", "Estiramientos"]},
+    {"sala": "Piscina", "calles": 4, "longitud_m": 25}
+  ],
+  "planes": [
+    {"nombre": "Mensual", "meses": 1, "precio": 39.9},
+    {"nombre": "Trimestral", "meses": 3, "precio": 105},
+    {"nombre": "Anual", "meses": 12, "precio": 360}
+  ],
+  "monitores": [
+    {"nombre": "Marcos Velasco", "especialidades": ["Crossfit", "Spinning"]},
+    {"nombre": "Ainhoa Ferrer", "especialidades": ["Yoga", "Pilates"]},
+    {"nombre": "Rubén Soler", "especialidades": ["Musculación"]}
+  ],
+  "servicios": ["Vestuarios con taquillas", "Fisioterapia", "Nutricionista", "Aparcamiento para bicicletas"]
+}

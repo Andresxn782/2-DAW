@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>art | interfaz integrada</title>
+  <link rel="shortcut icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body class="art-iu">
+
+  <!-- ==================== CABECERA ==================== -->
+  <header>
+    <div class="corporativo">
+      <img src="img/logo.svg" alt="">
+      <h1>art | interfaz integrada</h1>
+    </div>
+    <div id="herramientas">
+      <input id="buscador" type="search" placeholder="Buscar en Clientes…" title="Ctrl + K">
+      <button id="nuevo" type="button" title="Alt + N">+ Nuevo</button>
+    </div>
+    <div id="usuario">
+      <div class="imagen">AR</div>
+      <div>
+        <p>Andrés Ruiz Torres</p>
+        <a href="login.html">Cerrar sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== CUERPO: 3 COLUMNAS ==================== -->
+  <main>
+    <nav id="navegacion" aria-label="Módulos">
+      <div class="titulo-columna">Módulos</div>
+      <div class="contenido-columna"></div>
+      <button class="minimizar" type="button" title="Minimizar">‹</button>
+    </nav>
+    <div class="separador" title="Arrastra para redimensionar"></div>
+
+    <section id="entidades" aria-label="Vistas">
+      <div class="titulo-columna">Vistas</div>
+      <div class="contenido-columna"></div>
+      <button class="minimizar" type="button" title="Minimizar">‹</button>
+    </section>
+    <div class="separador" title="Arrastra para redimensionar"></div>
+
+    <div id="escenario" class="escenario"></div>
+  </main>
+
+  <!-- ==================== PIE: BARRA DE ESTADO ==================== -->
+  <footer id="estado">
+    <span id="estadoModulo">Clientes</span>
+    <span id="estadoVista">Listado</span>
+    <span id="estadoRegistros"></span>
+    <span id="estadoEvento" class="ar-pie-evento">Listo</span>
+    <span id="estadoConexion" class="ar-pie-conexion">● En línea</span>
+  </footer>
+
+  <!-- ==================== COMPONENTES FLOTANTES ==================== -->
+  <div class="ar-drawer-overlay" id="arDrawerOverlay" aria-hidden="true"></div>
+  <aside class="ar-drawer" id="arDrawer" aria-hidden="true" aria-label="Editor lateral">
+    <div class="ar-drawer-resizer" id="arDrawerResizer" title="Arrastra para redimensionar"></div>
+    <header class="ar-drawer-header">
+      <div>
+        <small id="arDrawerModo">CREAR</small>
+        <h2 id="arDrawerTitulo">Nuevo registro</h2>
+      </div>
+      <button class="ar-drawer-cerrar" id="arDrawerCerrar" type="button" aria-label="Cerrar">×</button>
+    </header>
+    <div class="ar-drawer-body" id="arDrawerCuerpo"></div>
+  </aside>
+
+  <div class="ar-modal-capa" id="arModal" aria-hidden="true">
+    <div class="ar-modal-fondo" data-modal-cerrar></div>
+    <section class="ar-modal-ventana" role="dialog" aria-modal="true" aria-labelledby="arModalTitulo">
+      <header class="ar-modal-header">
+        <h2 id="arModalTitulo">Ventana modal</h2>
+        <button class="ar-modal-cerrar" type="button" data-modal-cerrar aria-label="Cerrar">×</button>
+      </header>
+      <div class="ar-modal-body" id="arModalCuerpo"></div>
+    </section>
+  </div>
+
+  <div class="ar-toast-pila" id="arToasts" aria-live="polite"></div>
+
+  <!-- Los <template> se cargan desde la carpeta templates/ (componentes externos) -->
+  <script src="js/componentes.js"></script>
+</body>
+</html>

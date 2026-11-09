@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Indica al navegador que es un documento HTML5 -->
+<html lang="en">
+  <head>
+    <!-- Permite mostrar cualquier carácter (tildes, ñ, €...) -->
+    <meta charset="utf-8" />
+    <!-- Texto que aparece en la pestaña del navegador -->
+    <title>Visits</title>
+  </head>
+  <body>
+    <!-- Párrafo vacío donde se mostrará el número de visitas -->
+    <p id="total"></p>
+
+    <!-- El script va al final para que el párrafo ya exista cuando se ejecute -->
+    <script>
+      // Busca el párrafo con id="total" y lo guarda para poder escribir en él
+      const totalLabel = document.querySelector('#total');
+
+      // Lee el valor guardado con la clave "visits":
+      // - La primera vez no hay nada y getItem devuelve null.
+      // - Las siguientes devuelve un texto, por ejemplo "3".
+      // Number() lo convierte en número (null pasa a ser 0).
+      // "|| 0" usa 0 si el resultado no es un número válido (NaN).
+      let visits = Number(localStorage.getItem('visits')) || 0;
+
+      // Suma 1 al contador por esta visita
+      visits++;
+
+      // Guarda el nuevo valor en localStorage con la clave "visits".
+      // Se conserva aunque se recargue la página o se cierre el navegador.
+      localStorage.setItem('visits', visits);
+
+      // Escribe el resultado en el párrafo, por ejemplo "Visits: 4"
+      totalLabel.textContent = `Visits: ${visits}`;
+    </script>
+  </body>
+</html>

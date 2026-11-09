@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Diálogos</title>
+  </head>
+  <body>
+    <p id="result"></p>
+
+    <script>
+      const result = document.querySelector('#result');
+
+      const text = prompt('Escribe algo:');
+
+      if (text === null || text.trim() === '') {
+        alert('No has escrito nada.');
+        result.textContent = 'No se ha escrito nada';
+      } else {
+        const save = confirm(`¿Quieres guardar "${text}"?`);
+
+        if (save) {
+          result.textContent = `Guardado: ${text}`;
+        } else {
+          result.textContent = `Descartado: ${text}`;
+        }
+      }
+    </script>
+  </body>
+</html>
+// Con esto hacemos que el usuario interactue con las ventanas

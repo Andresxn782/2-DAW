@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Products</title>
+  </head>
+  <body>
+    <h1>Products</h1>
+
+    <script>
+      const headers = ['Product', 'Price'];
+      const products = [
+        { name: 'Keyboard', price: 49.9 },
+        { name: 'Mouse', price: 19.5 },
+        { name: 'Monitor', price: 189 },
+      ];
+
+      const table = document.createElement('table');
+
+      // Fila de cabecera
+      const headerRow = document.createElement('tr');
+      for (let i = 0; i < headers.length; i++) {
+        const th = document.createElement('th');
+        th.textContent = headers[i];
+        headerRow.appendChild(th);
+      }
+      table.appendChild(headerRow);
+
+      // Una fila por producto
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = product.name;
+        row.appendChild(nameCell);
+
+        const priceCell = document.createElement('td');
+        priceCell.textContent = `${product.price.toFixed(2)} €`;
+        row.appendChild(priceCell);
+
+        table.appendChild(row);
+      }
+
+      document.body.appendChild(table);
+    </script>
+  </body>
+</html>

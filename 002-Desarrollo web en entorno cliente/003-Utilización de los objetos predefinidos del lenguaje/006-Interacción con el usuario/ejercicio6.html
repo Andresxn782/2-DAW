@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mouse</title>
+    <style>
+      #area {
+        width: 300px;
+        height: 200px;
+        border: 2px dashed gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="area"></div>
+    <p id="clicks">Clicks: 0</p>
+
+    <script>
+      const area = document.querySelector('#area');
+      const clicksLabel = document.querySelector('#clicks');
+      let clicks = 0;
+
+      area.onclick = () => {
+        clicks++;
+        clicksLabel.textContent = `Clicks: ${clicks}`;
+      };
+
+      area.ondblclick = () => {
+        clicks = 0;
+        clicksLabel.textContent = `Clicks: ${clicks}`;
+      };
+    </script>
+  </body>
+</html>

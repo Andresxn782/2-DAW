@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resize</title>
+  </head>
+  <body>
+    <button id="open">Open window</button>
+    <button id="grow">Grow</button>
+    <button id="shrink">Shrink</button>
+    <button id="reset">Reset</button>
+
+    <script>
+      let popup = null;
+
+      document.querySelector('#open').addEventListener('click', () => {
+        popup = window.open('', '', 'width=400,height=300');
+      });
+
+      document.querySelector('#grow').addEventListener('click', () => {
+        if (popup && !popup.closed) {
+          popup.resizeBy(100, 100);
+        }
+      });
+
+      document.querySelector('#shrink').addEventListener('click', () => {
+        if (popup && !popup.closed) {
+          popup.resizeBy(-100, -100);
+        }
+      });
+
+      document.querySelector('#reset').addEventListener('click', () => {
+        if (popup && !popup.closed) {
+          popup.resizeTo(400, 300);
+        }
+      });
+    </script>
+  </body>
+</html>

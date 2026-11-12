@@ -1,6 +1,6 @@
 <?php
 /**
- * mavr | iu · puente entre el navegador y Ollama (modelo local)
+ * art | iu · puente entre el navegador y Ollama (modelo local)
  *
  * El navegador no habla directamente con Ollama: envía el prompt a este
  * archivo y PHP hace la petición a http://localhost:11434.

@@ -1,23 +1,23 @@
 {
-  "nombre": "mavr | interfaz integrada",
-  "lema": "Una interfaz serena, cercana y redondeada para trabajar sin ruido visual.",
+  "nombre": "art | interfaz integrada",
+  "lema": "Una interfaz serena y editorial, con carácter discreto, para trabajar sin ruido visual.",
   "colores": [
-    { "variable": "--negro",        "nombre": "Grafito",        "significado": "Seriedad y profesionalidad. Base de la cabecera y del menú principal." },
-    { "variable": "--naranja",      "nombre": "Naranja suave",  "significado": "Energía y acción. Solo se usa para lo que se puede pulsar o lo que está activo." },
-    { "variable": "--naranja-claro","nombre": "Melocotón",      "significado": "Acompaña al naranja en fondos y estados de foco sin cansar la vista." },
-    { "variable": "--crema",        "nombre": "Crema",          "significado": "Calidez y lectura cómoda en el escenario de trabajo." },
-    { "variable": "--seccion",      "nombre": "Arena",          "significado": "Separa la columna de vistas del escenario sin usar líneas duras." }
+    { "variable": "--tinta",       "nombre": "Tinta petróleo", "significado": "Profundidad y calma. Más cálido que el negro puro, da seriedad sin dureza. Base de la cabecera, el menú y el pie." },
+    { "variable": "--laton",       "nombre": "Latón",          "significado": "El único acento. Marca lo que se puede pulsar o lo que está activo; un metal envejecido que se nota sin llamar la atención." },
+    { "variable": "--laton-claro", "nombre": "Pergamino",      "significado": "Versión diluida del latón para fondos de foco, selección y zonas de arrastre." },
+    { "variable": "--papel",       "nombre": "Papel hueso",    "significado": "Fondo de lectura cálido, como una página; cansa menos que el blanco puro." },
+    { "variable": "--piedra",      "nombre": "Piedra",         "significado": "Separa la columna de vistas del escenario con un cambio de tono, no con líneas." }
   ],
   "tipografia": {
-    "familia": "Ubuntu, Segoe UI, Roboto, Arial, sans-serif",
-    "motivo": "Tipografía de palo seco, redondeada y muy legible en pantalla."
+    "familia": "Fraunces (títulos) · Manrope (texto) · JetBrains Mono (código)",
+    "motivo": "Una serif con personalidad para los títulos aporta el toque editorial; una sans geométrica y limpia mantiene la interfaz legible; la monoespaciada ordena datos y código."
   },
   "formas": {
-    "radio": "Esquinas redondeadas en tarjetas, botones en forma de píldora y fichas circulares.",
-    "motivo": "Las formas redondas transmiten cercanía y suavizan una paleta oscura."
+    "radio": "Forma de hoja: dos esquinas amplias en diagonal y dos casi rectas, en tarjetas, botones, fichas y ventanas.",
+    "motivo": "Es un gesto propio y reconocible, pero tan sutil que solo se percibe al mirar: suaviza la interfaz sin volverla infantil."
   },
   "logo": {
     "archivo": "img/logo.svg",
-    "motivo": "La M de mavr dentro de un cuadrado redondeado con el color de acción de la marca."
+    "motivo": "La A de art en latón sobre una hoja de tinta petróleo, con un filo fino que repite el acento de la cabecera."
   }
 }

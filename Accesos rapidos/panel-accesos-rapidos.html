@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel DAW2 de Andrés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: cabecera con cuenta atrás, luego dos columnas (accesos | exámenes), luego proyectos y frases para Claude */
+  --bg: #f3f4f7;
+  --surface: #ffffff;
+  --ink: #161a24;
+  --muted: #5d6475;
+  --line: #dde1ea;
+  --accent: #2f55d4;
+  --accent-soft: #e6ebfb;
+  --warn: #b4541a;
+  --warn-soft: #fbeadf;
+  --ok: #2c7a4b;
+  --ok-soft: #e2f2e8;
+  --crit: #c0282d;
+  --crit-soft: #fbe3e3;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141b;
+    --surface: #1a1e28;
+    --ink: #e9ecf3;
+    --muted: #9aa2b4;
+    --line: #2b3140;
+    --accent: #7d9bff;
+    --accent-soft: #232c48;
+    --warn: #f0a070;
+    --warn-soft: #3a2619;
+    --ok: #7fd3a0;
+    --ok-soft: #1b3326;
+    --crit: #ff8a8a;
+    --crit-soft: #3d1c1e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141b;
+  --surface: #1a1e28;
+  --ink: #e9ecf3;
+  --muted: #9aa2b4;
+  --line: #2b3140;
+  --accent: #7d9bff;
+  --accent-soft: #232c48;
+  --warn: #f0a070;
+  --warn-soft: #3a2619;
+  --ok: #7fd3a0;
+  --ok-soft: #1b3326;
+  --crit: #ff8a8a;
+  --crit-soft: #3d1c1e;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+  display: grid;
+  gap: 20px;
+}
+h1, h2 { margin: 0; text-wrap: balance; }
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+/* Cabecera */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.top p { margin: 2px 0 0; color: var(--muted); }
+.countdown {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: var(--accent-soft);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.countdown .num {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.countdown .txt { font-size: 13px; color: var(--ink); }
+.countdown .txt strong { display: block; font-size: 14px; }
+
+/* Rejilla principal */
+.grid2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: 20px;
+}
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* Accesos rápidos */
+.group-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  background: var(--surface);
+  transition: border-color .15s, background .15s;
+}
+.link:hover { border-color: var(--accent); background: var(--accent-soft); }
+.badge {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: grid; place-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 600;
+  color: #fff;
+  flex: none;
+}
+.link small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+/* Exámenes */
+.exams { list-style: none; margin: 0; padding: 0; display: grid; }
+.exam {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.exam:first-child { border-top: 0; }
+.when { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.when b { display: block; color: var(--ink); font-size: 13px; }
+.subject { font-weight: 500; }
+.pill {
+  font-size: 12px; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.pill.next { background: var(--warn-soft); color: var(--warn); }
+.pill.later { background: var(--accent-soft); color: var(--accent); }
+.pill.done { background: var(--ok-soft); color: var(--ok); }
+.note { margin: 0; font-size: 13px; color: var(--muted); }
+.note strong { color: var(--warn); }
+
+/* Proyectos */
+.repos { display: flex; flex-wrap: wrap; gap: 8px; }
+.repo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-decoration: none;
+}
+.repo:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Frases para Claude */
+.prompts { display: grid; gap: 8px; }
+.prompt {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.prompt span { min-width: 0; }
+.prompt button {
+  flex: none;
+  font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 0; border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.prompt button.copied { color: var(--ok); background: var(--ok-soft); }
+
+/* Cabecera: saludo + botón de tema */
+.hello { display: grid; gap: 2px; }
+.hello .date { color: var(--muted); font-size: 14px; }
+.top-right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.theme-btn {
+  font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 12px; cursor: pointer;
+}
+.theme-btn:hover { border-color: var(--accent); }
+
+/* Calendar en vivo */
+.cal-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.cal-item {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr);
+  gap: 12px; padding: 9px 0; border-top: 1px solid var(--line);
+}
+.cal-item:first-child { border-top: 0; }
+.cal-item .when { font-size: 12px; }
+.state { margin: 0; font-size: 14px; color: var(--muted); }
+.state a { color: var(--accent); font-weight: 600; }
+.fresh { font-size: 12px; color: var(--muted); }
+.row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+
+/* Tareas */
+.todo-form { display: flex; gap: 8px; }
+.todo-form input {
+  flex: 1; min-width: 0;
+  font: inherit; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+}
+.todo-form input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.todo-form button, .small-btn {
+  font: inherit; font-size: 13px; font-weight: 600;
+  color: #fff; background: var(--accent);
+  border: 0; border-radius: 8px; padding: 8px 14px; cursor: pointer;
+}
+.todos { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.todo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+}
+.todo input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.todo label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.todo.done label { text-decoration: line-through; color: var(--muted); }
+.todo .del {
+  font: inherit; font-size: 12px; color: var(--muted);
+  background: none; border: 0; cursor: pointer; padding: 2px 6px;
+}
+.todo .del:hover { color: var(--warn); }
+
+/* Horario */
+.sched-wrap { overflow-x: auto; }
+table.sched { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.sched th, .sched td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+.sched th { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--bg); }
+.sched th.hour { width: 64px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.sched td { height: 44px; font-size: 13px; font-weight: 500; }
+.sched th.hour { line-height: 1.3; }
+.sched tr.break td { height: auto; text-align: center; color: var(--muted); background: var(--bg); font-weight: 600; letter-spacing: 0.04em; }
+.sched td[contenteditable]:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+.sched td:empty::before { content: "+"; color: var(--line); }
+.sched .today { background: var(--accent-soft); }
+.sched th.today { color: var(--accent); }
+.sched td.now { box-shadow: inset 3px 0 0 var(--warn); }
+
+
+/* Calendario mensual */
+.cal-nav { display: flex; align-items: center; gap: 8px; }
+.cal-nav strong { flex: 1; text-align: center; font-size: 15px; }
+.nav-btn {
+  font: inherit; font-size: 16px; font-weight: 600; line-height: 1;
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 6px 10px; cursor: pointer;
+}
+.nav-btn.hoy { font-size: 13px; }
+.nav-btn:hover { border-color: var(--accent); }
+.month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.month .dow { font-size: 11px; font-weight: 600; color: var(--muted); text-align: center; padding-bottom: 2px; }
+.day {
+  font: inherit; text-align: left;
+  min-height: 54px; padding: 4px 5px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); color: var(--ink);
+  display: flex; flex-direction: column; gap: 3px; cursor: pointer;
+}
+.day.out { opacity: .4; }
+.day .n { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.day.today .n { color: #fff; background: var(--accent); border-radius: 999px; padding: 0 6px; align-self: flex-start; }
+.day.sel { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.day.weekend { background: var(--bg); }
+.dots { display: flex; flex-wrap: wrap; gap: 3px; }
+.dot { height: 6px; width: 6px; border-radius: 999px; background: var(--accent); }
+.dot.exam { background: var(--warn); width: 14px; }
+.chip {
+  font-size: 10px; font-weight: 600; line-height: 1.25;
+  color: var(--warn); background: var(--warn-soft);
+  border-radius: 4px; padding: 1px 4px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.day-detail { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.day-detail strong { font-size: 13px; }
+@media (max-width: 480px) { .chip { display: none; } .day { min-height: 42px; } }
+
+
+/* Tareas del campus */
+.campus { display: grid; gap: 14px; }
+.campus-group { display: grid; gap: 6px; }
+.grp-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; display: flex; gap: 6px; align-items: center; }
+.grp-title span { font-variant-numeric: tabular-nums; }
+.grp-title.late { color: var(--crit); }
+.grp-title.soon { color: var(--warn); }
+.grp-title.mine { color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+.entregas { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.entrega {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 4px 10px; align-items: center;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  border-left: 3px solid var(--warn);
+}
+.entrega.late { border-left-color: var(--crit); }
+.entrega .mod { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.entrega a { text-decoration: none; font-weight: 500; overflow-wrap: anywhere; }
+.entrega a:hover { color: var(--accent); text-decoration: underline; }
+.entrega .meta { font-size: 12px; color: var(--muted); }
+.entrega .pill { grid-row: 1 / span 3; grid-column: 2; align-self: center; }
+.pill.late { background: var(--crit-soft); color: var(--crit); }
+
+
+.entrega .hecha {
+  grid-row: 1 / span 3; grid-column: 3; align-self: center;
+  font: inherit; font-size: 12px; font-weight: 600;
+  color: var(--ok); background: var(--ok-soft);
+  border: 0; border-radius: 6px; padding: 5px 9px; cursor: pointer;
+}
+.entrega .hecha:hover { filter: brightness(0.95); }
+.entrega.oculta { opacity: .55; border-left-color: var(--line); }
+.entrega.oculta .hecha { color: var(--muted); background: var(--bg); }
+.link-btn {
+  justify-self: start; font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer;
+}
+.link-btn:hover { text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) { .link { transition: none; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header class="top">
+    <div class="hello">
+      <h1 id="saludo">Hola, Andrés</h1>
+      <span class="date" id="fecha-hoy"></span>
+      <span class="date">Panel DAW2 · CEAC FP</span>
+    </div>
+    <div class="top-right">
+      <div class="countdown" aria-live="polite">
+        <div class="num" id="cd-num">–</div>
+        <div class="txt"><strong id="cd-title">Próximo examen</strong><span id="cd-when"></span></div>
+      </div>
+      <button class="theme-btn" id="theme-btn" type="button">Tema: automático</button>
+    </div>
+  </header>
+
+  <div class="grid2">
+    <section class="card" aria-labelledby="h-links">
+      <h2 id="h-links">Accesos rápidos</h2>
+
+      <div class="group-label">Instituto</div>
+      <div class="links">
+        <a class="link" href="https://formacion.jocarsa.com/dashboard.php?course=4" target="_blank" rel="noopener"><span class="badge" style="background:#8a3fb8">Jf</span><span>Jocarsa Formación<small>Aula del profesor</small></span></a>
+        <a class="link" href="https://outlook.office.com/mail/" target="_blank" rel="noopener"><span class="badge" style="background:#1f6fc5">Ol</span><span>Outlook<small>Correo de clase</small></span></a>
+        <a class="link" href="https://teams.microsoft.com/" target="_blank" rel="noopener"><span class="badge" style="background:#5b5fc7">Tm</span><span>Teams<small>Clases online</small></span></a>
+        <a class="link" href="https://www.office.com/" target="_blank" rel="noopener"><span class="badge" style="background:#c4410f">365</span><span>Office<small>OneDrive y apps</small></span></a>
+      </div>
+
+      <div class="group-label">Personal (Google)</div>
+      <div class="links">
+        <a class="link" href="https://calendar.google.com/" target="_blank" rel="noopener"><span class="badge" style="background:#2f7d5a">Ca</span><span>Calendar<small>Exámenes y entregas</small></span></a>
+        <a class="link" href="https://mail.google.com/" target="_blank" rel="noopener"><span class="badge" style="background:#c23b32">Gm</span><span>Gmail<small>Correo personal</small></span></a>
+        <a class="link" href="https://drive.google.com/" target="_blank" rel="noopener"><span class="badge" style="background:#b88a12">Dr</span><span>Drive<small>Archivos</small></span></a>
+      </div>
+
+      <div class="group-label">Código y ayuda</div>
+      <div class="links">
+        <a class="link" href="https://github.com/Andresxn782" target="_blank" rel="noopener"><span class="badge" style="background:#2b2f38">GH</span><span>GitHub<small>Andresxn782</small></span></a>
+        <a class="link" href="https://github.com/Andresxn782/2-DAW" target="_blank" rel="noopener"><span class="badge" style="background:#4a5163">2D</span><span>Repo 2-DAW<small>Apuntes y ejercicios</small></span></a>
+        <a class="link" href="https://claude.ai/new" target="_blank" rel="noopener"><span class="badge" style="background:#b8613a">Cl</span><span>Claude<small>Chat nuevo</small></span></a>
+        <a class="link" href="vscode://" title="Abre Visual Studio Code instalado en tu ordenador"><span class="badge" style="background:#1e7bc7">VS</span><span>VS Code<small>App del ordenador</small></span></a>
+        <a class="link" href="https://vscode.dev/" target="_blank" rel="noopener"><span class="badge" style="background:#3c6e9e">VW</span><span>VS Code web<small>En el navegador</small></span></a>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="h-cal">
+      <div class="row-head"><h2 id="h-cal">Calendario</h2><span class="fresh" id="cal-fresh"></span></div>
+      <div class="cal-nav">
+        <button type="button" class="nav-btn" id="cal-prev" aria-label="Mes anterior">‹</button>
+        <strong id="cal-mes"></strong>
+        <button type="button" class="nav-btn" id="cal-next" aria-label="Mes siguiente">›</button>
+        <button type="button" class="nav-btn hoy" id="cal-hoy">Hoy</button>
+      </div>
+      <div class="month" id="cal-grid" role="grid" aria-labelledby="cal-mes"></div>
+      <div class="day-detail">
+        <strong id="cal-dia-titulo"></strong>
+        <ul class="cal-list" id="cal-list"></ul>
+      </div>
+      <p class="state" id="cal-state"></p>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="card" aria-labelledby="h-todo">
+      <div class="row-head"><h2 id="h-todo">Tareas pendientes</h2><span class="fresh" id="campus-fresh"></span></div>
+      <div class="campus" id="campus">
+        <div class="campus-group" id="grp-tarde" hidden>
+          <div class="grp-title late">Sin entregar · fuera de plazo <span id="n-tarde"></span></div>
+          <ul class="entregas" id="lista-tarde"></ul>
+        </div>
+        <div class="campus-group" id="grp-pend" hidden>
+          <div class="grp-title soon">Por entregar <span id="n-pend"></span></div>
+          <ul class="entregas" id="lista-pend"></ul>
+        </div>
+        <p class="state" id="campus-state">Cargando tareas del campus…</p>
+        <button type="button" class="link-btn" id="ver-ocultas" hidden></button>
+      </div>
+      <div class="grp-title mine">Mis tareas</div>
+      <form class="todo-form" id="todo-form">
+        <input id="todo-input" type="text" placeholder="Ej.: terminar ejercicio 9 de entorno cliente" aria-label="Nueva tarea" maxlength="140">
+        <button type="submit">Añadir</button>
+      </form>
+      <ul class="todos" id="todos"></ul>
+      <p class="state" id="todo-empty">No tienes tareas. Escribe una arriba y pulsa Añadir.</p>
+    </section>
+
+    <section class="card" aria-labelledby="h-exams">
+      <h2 id="h-exams">Exámenes 1ª evaluación · 1–4 dic</h2>
+      <ul class="exams" id="exams"></ul>
+      <p class="note"><strong>Puntualidad:</strong> si llegas tarde no te dejan entrar y suspendes la evaluación de ese módulo.</p>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="h-sched">
+    <div class="row-head"><h2 id="h-sched">Horario de clases</h2><span class="fresh">Pulsa una casilla si quieres cambiar algo</span></div>
+    <div class="sched-wrap"><table class="sched" id="sched"></table></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-repos">
+    <h2 id="h-repos">Mis proyectos en GitHub</h2>
+    <div class="repos">
+      <a class="repo" href="https://github.com/Andresxn782/club-remo" target="_blank" rel="noopener">club-remo</a>
+      <a class="repo" href="https://github.com/Andresxn782/mesa-libre" target="_blank" rel="noopener">mesa-libre</a>
+      <a class="repo" href="https://github.com/Andresxn782/cuentas-claras" target="_blank" rel="noopener">cuentas-claras</a>
+      <a class="repo" href="https://github.com/Andresxn782/brisa" target="_blank" rel="noopener">brisa</a>
+      <a class="repo" href="https://github.com/Andresxn782/Pagina_web" target="_blank" rel="noopener">Pagina_web</a>
+      <a class="repo" href="https://github.com/Andresxn782/Gestor-de-usuario-tareas" target="_blank" rel="noopener">Gestor-de-usuario-tareas</a>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-prompts">
+    <h2 id="h-prompts">Pídeselo a Claude · copia y pega</h2>
+    <div class="prompts" id="prompts"></div>
+  </section>
+
+</main>
+<script>
+// Exámenes de DAW2 (hora de Madrid, invierno = UTC+1)
+const examenes = [
+  { asignatura: "Sostenibilidad aplicada al sistema productivo", inicio: "2026-12-01T15:00:00+01:00" },
+  { asignatura: "Digitalización aplicada al sistema productivo", inicio: "2026-12-01T17:00:00+01:00" },
+  { asignatura: "Desarrollo web en entorno cliente", inicio: "2026-12-02T15:00:00+01:00" },
+  { asignatura: "Desarrollo web en entorno servidor", inicio: "2026-12-02T17:00:00+01:00" },
+  { asignatura: "Itinerario personal para la empleabilidad II", inicio: "2026-12-03T15:00:00+01:00" },
+  { asignatura: "Módulo optativo", inicio: "2026-12-03T19:00:00+01:00" },
+  { asignatura: "Despliegue de aplicaciones web", inicio: "2026-12-04T17:00:00+01:00" },
+  { asignatura: "Diseño de interfaces web", inicio: "2026-12-04T19:00:00+01:00" }
+];
+const DURACION_MS = 90 * 60 * 1000; // 1 h 30 min
+
+const fmtDia = new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "numeric", timeZone: "Europe/Madrid" });
+const fmtHora = new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" });
+
+function diasHasta(fecha, ahora) {
+  // Días de calendario (en Madrid) entre hoy y la fecha del examen
+  const dia = d => new Date(new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(d) + "T00:00:00Z");
+  return Math.round((dia(fecha) - dia(ahora)) / 86400000);
+}
+
+function pintarExamenes() {
+  const ahora = new Date();
+  const lista = document.getElementById("exams");
+  lista.innerHTML = "";
+  let proximo = null;
+
+  examenes.forEach(ex => {
+    const inicio = new Date(ex.inicio);
+    const fin = new Date(inicio.getTime() + DURACION_MS);
+    const hecho = fin < ahora;
+    const esProximo = !hecho && proximo === null;
+    if (esProximo) proximo = { ...ex, inicio };
+
+    const dias = diasHasta(inicio, ahora);
+    let texto, clase;
+    if (hecho) { texto = "Hecho"; clase = "done"; }
+    else if (dias <= 0) { texto = "Hoy"; clase = "next"; }
+    else if (dias === 1) { texto = "Mañana"; clase = "next"; }
+    else { texto = "en " + dias + " días"; clase = esProximo ? "next" : "later"; }
+
+    const li = document.createElement("li");
+    li.className = "exam";
+    li.innerHTML =
+      '<div class="when"><b>' + fmtDia.format(inicio) + '</b>' + fmtHora.format(inicio) + '–' + fmtHora.format(fin) + '</div>' +
+      '<div class="subject"></div>' +
+      '<span class="pill ' + clase + '">' + texto + '</span>';
+    li.querySelector(".subject").textContent = ex.asignatura;
+    lista.appendChild(li);
+  });
+
+  const num = document.getElementById("cd-num");
+  const titulo = document.getElementById("cd-title");
+  const cuando = document.getElementById("cd-when");
+  if (proximo) {
+    const dias = diasHasta(proximo.inicio, ahora);
+    num.textContent = dias <= 0 ? "Hoy" : dias;
+    titulo.textContent = dias <= 0 ? "Examen hoy" : (dias === 1 ? "día para el próximo examen" : "días para el próximo examen");
+    cuando.textContent = proximo.asignatura + " · " + fmtDia.format(proximo.inicio) + " " + fmtHora.format(proximo.inicio);
+  } else {
+    num.textContent = "✓";
+    titulo.textContent = "Exámenes terminados";
+    cuando.textContent = "1ª evaluación completada";
+  }
+}
+
+// Frases útiles para pedirle cosas a Claude
+const frases = [
+  "Prepárame un test de 10 preguntas del tema que estamos dando en Desarrollo web en entorno servidor.",
+  "Revisa mi Outlook de esta semana y apunta en mi Calendar las entregas y exámenes nuevos.",
+  "Hazme un plan de estudio para los exámenes del 1 al 4 de diciembre repartido en mis tardes libres.",
+  "Corrige este ejercicio según los criterios de evaluación del tema y explícame qué falla, sin darme la solución:",
+  "Explícame fácil y con un ejemplo pequeño cómo funciona PDO con SQLite en PHP."
+];
+
+function pintarFrases() {
+  const cont = document.getElementById("prompts");
+  frases.forEach((frase, i) => {
+    const fila = document.createElement("div");
+    fila.className = "prompt";
+    const texto = document.createElement("span");
+    texto.textContent = frase;
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.id = "copiar-" + i;
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(frase);
+        boton.textContent = "Copiado";
+        boton.classList.add("copied");
+      } catch (e) {
+        // Si el navegador no deja copiar, seleccionamos el texto para copiarlo a mano
+        const rango = document.createRange();
+        rango.selectNodeContents(texto);
+        const sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(rango);
+        boton.textContent = "Pulsa Ctrl+C";
+      }
+      setTimeout(() => { boton.textContent = "Copiar"; boton.classList.remove("copied"); }, 2000);
+    });
+    fila.append(texto, boton);
+    cont.appendChild(fila);
+  });
+}
+
+
+// ---------- Guardado local seguro ----------
+function leer(clave, porDefecto) {
+  try { const v = localStorage.getItem(clave); return v ? JSON.parse(v) : porDefecto; }
+  catch (e) { return porDefecto; }
+}
+function guardar(clave, valor) {
+  try { localStorage.setItem(clave, JSON.stringify(valor)); } catch (e) { /* sin almacenamiento: no pasa nada */ }
+}
+
+// ---------- 9. Saludo y fecha ----------
+function pintarSaludo() {
+  const hora = Number(new Intl.DateTimeFormat("es-ES", { hour: "numeric", hour12: false, timeZone: "Europe/Madrid" }).format(new Date()));
+  const saludo = hora < 7 ? "Buenas noches" : hora < 14 ? "Buenos días" : hora < 21 ? "Buenas tardes" : "Buenas noches";
+  document.getElementById("saludo").textContent = saludo + ", Andrés";
+  const f = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Madrid" }).format(new Date());
+  document.getElementById("fecha-hoy").textContent = f.charAt(0).toUpperCase() + f.slice(1);
+}
+
+// ---------- 8. Tema claro / oscuro ----------
+const temas = ["auto", "light", "dark"];
+const nombresTema = { auto: "automático", light: "claro", dark: "oscuro" };
+let tema = leer("panel-tema", "auto");
+function aplicarTema() {
+  if (tema === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", tema);
+  document.getElementById("theme-btn").textContent = "Tema: " + nombresTema[tema];
+}
+document.getElementById("theme-btn").addEventListener("click", () => {
+  tema = temas[(temas.indexOf(tema) + 1) % temas.length];
+  guardar("panel-tema", tema);
+  aplicarTema();
+});
+
+// ---------- 1. Tareas ----------
+let tareas = leer("panel-tareas", []);
+function pintarTareas() {
+  const ul = document.getElementById("todos");
+  ul.innerHTML = "";
+  tareas.forEach((t, i) => {
+    const li = document.createElement("li");
+    li.className = "todo" + (t.hecha ? " done" : "");
+    const id = "tarea-" + t.id;
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.id = id; cb.checked = t.hecha;
+    cb.addEventListener("change", () => { t.hecha = cb.checked; guardar("panel-tareas", tareas); pintarTareas(); });
+    const lb = document.createElement("label");
+    lb.htmlFor = id; lb.textContent = t.texto;
+    const del = document.createElement("button");
+    del.type = "button"; del.className = "del"; del.textContent = "Borrar";
+    del.setAttribute("aria-label", "Borrar tarea: " + t.texto);
+    del.addEventListener("click", () => { tareas.splice(i, 1); guardar("panel-tareas", tareas); pintarTareas(); });
+    li.append(cb, lb, del);
+    ul.appendChild(li);
+  });
+  document.getElementById("todo-empty").hidden = tareas.length > 0;
+}
+document.getElementById("todo-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const input = document.getElementById("todo-input");
+  const texto = input.value.trim();
+  if (!texto) return;
+  tareas.push({ id: Date.now(), texto, hecha: false });
+  guardar("panel-tareas", tareas);
+  input.value = "";
+  pintarTareas();
+});
+
+// ---------- 2. Horario de clases (editable) ----------
+const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+// Franjas: 3 clases, descanso de 17:45 a 18:15, 3 clases. Cada clase dura 55 minutos.
+const franjas = [
+  { id: "c1", nombre: "Clase 1", ini: "15:00", fin: "15:55" },
+  { id: "c2", nombre: "Clase 2", ini: "15:55", fin: "16:50" },
+  { id: "c3", nombre: "Clase 3", ini: "16:50", fin: "17:45" },
+  { id: "descanso", nombre: "Descanso", ini: "17:45", fin: "18:15" },
+  { id: "c4", nombre: "Clase 4", ini: "18:15", fin: "19:10" },
+  { id: "c5", nombre: "Clase 5", ini: "19:10", fin: "20:05" },
+  { id: "c6", nombre: "Clase 6", ini: "20:05", fin: "21:00" }
+];
+const EMP = "Itinerario empleabilidad II", DESP = "Despliegue de aplicaciones web", DIW = "Diseño de interfaces web",
+      SERV = "Entorno servidor", CLI = "Entorno cliente", PROY = "Proyecto intermodular", DIG = "Digitalización",
+      SOST = "Sostenibilidad", OPT = "Módulo optativo";
+// Horario oficial 26/27 de 2º DAW (CEAC FP)
+const horarioBase = {
+  "Lunes":     [EMP, EMP, DESP, DESP, DIW, DIW],
+  "Martes":    [SERV, SERV, SERV, DESP, PROY, PROY],
+  "Miércoles": [DIG, SOST, CLI, SERV, SERV, SERV],
+  "Jueves":    [CLI, CLI, DIW, DIW, OPT, OPT],
+  "Viernes":   [CLI, CLI, CLI, EMP, PROY, OPT]
+};
+const colorAsignatura = {
+  [EMP]: "#2f9e44", [DESP]: "#5c940d", [DIW]: "#4c3fb8", [SERV]: "#a3a12a", [CLI]: "#9c36b5",
+  [PROY]: "#3b2fa0", [DIG]: "#1098ad", [SOST]: "#c2255c", [OPT]: "#0ca678"
+};
+let cambiosHorario = leer("panel-horario-v2", {});
+const aMin = h => Number(h.slice(0, 2)) * 60 + Number(h.slice(3, 5));
+
+function pintarHorario() {
+  const tabla = document.getElementById("sched");
+  const ahora = new Date();
+  const diaMadrid = new Intl.DateTimeFormat("es-ES", { weekday: "long", timeZone: "Europe/Madrid" }).format(ahora);
+  const hoy = diasSemana.findIndex(d => d.toLowerCase() === diaMadrid.toLowerCase());
+  const partes = new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Madrid" }).format(ahora);
+  const minAhora = aMin(partes);
+
+  let html = "<thead><tr><th class='hour'>Hora</th>";
+  diasSemana.forEach((d, i) => { html += "<th" + (i === hoy ? " class='today'" : "") + ">" + d + (i === hoy ? " · hoy" : "") + "</th>"; });
+  html += "</tr></thead><tbody>";
+  franjas.forEach((f, fi) => {
+    const enCurso = minAhora >= aMin(f.ini) && minAhora < aMin(f.fin);
+    if (f.id === "descanso") {
+      html += "<tr class='break'><th class='hour'>" + f.ini + "<br>" + f.fin + "</th><td colspan='5'>Descanso" + (enCurso && hoy >= 0 ? " · ahora" : "") + "</td></tr>";
+      return;
+    }
+    const n = Number(f.id.slice(1)) - 1;
+    html += "<tr><th class='hour'>" + f.ini + "<br>" + f.fin + "</th>";
+    diasSemana.forEach((d, i) => {
+      const clases = [];
+      if (i === hoy) clases.push("today");
+      if (i === hoy && enCurso) clases.push("now");
+      html += "<td contenteditable='true' data-key='" + d + "-" + f.id + "' data-base='" + n + "' aria-label='" + d + " " + f.nombre + "'" + (clases.length ? " class='" + clases.join(" ") + "'" : "") + "></td>";
+    });
+    html += "</tr>";
+  });
+  html += "</tbody>";
+  tabla.innerHTML = html;
+  tabla.querySelectorAll("td[data-key]").forEach(td => {
+    const dia = td.dataset.key.split("-")[0];
+    const base = horarioBase[dia][Number(td.dataset.base)];
+    const valor = td.dataset.key in cambiosHorario ? cambiosHorario[td.dataset.key] : base;
+    td.textContent = valor;
+    if (colorAsignatura[valor]) td.style.boxShadow = (td.classList.contains("now") ? "inset 4px 0 0 var(--warn), " : "") + "inset 0 -3px 0 " + colorAsignatura[valor];
+    td.addEventListener("input", () => {
+      const v = td.textContent.trim();
+      if (v === base) delete cambiosHorario[td.dataset.key]; else cambiosHorario[td.dataset.key] = v;
+      guardar("panel-horario-v2", cambiosHorario);
+    });
+    td.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); td.blur(); } });
+  });
+}
+
+// ---------- 10. Calendario simulado con los eventos de Google Calendar ----------
+// Copia de los eventos de tu Google Calendar (12/11/2026 16:55). Dentro de Claude se actualiza sola.
+const copiaCalendar = {
+  fecha: "2026-11-12T16:55:00+01:00",
+  eventos: examenes.map(e => {
+    const ini = new Date(e.inicio);
+    return { summary: "📝 Examen: " + e.asignatura, start: { dateTime: e.inicio }, end: { dateTime: new Date(ini.getTime() + DURACION_MS).toISOString() } };
+  })
+};
+let eventosCal = copiaCalendar.eventos;
+const fmtMes = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric", timeZone: "Europe/Madrid" });
+const fmtDiaLargo = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Madrid" });
+const claveDia = d => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(d); // AAAA-MM-DD
+const hoyClave = () => claveDia(new Date());
+let mesVisto = (() => { const [y, m] = hoyClave().split("-").map(Number); return { y, m }; })();
+let diaSel = hoyClave();
+
+function eventosDelDia(clave) {
+  return eventosCal.filter(ev => {
+    if (!ev.start) return false;
+    if (ev.start.date && !ev.start.dateTime) return ev.start.date === clave;
+    return claveDia(new Date(ev.start.dateTime)) === clave;
+  }).sort((a, b) => String(a.start.dateTime || a.start.date).localeCompare(String(b.start.dateTime || b.start.date)));
+}
+const esExamen = ev => /examen/i.test(ev.summary || "");
+const nombreCorto = ev => (ev.summary || "(Sin título)").replace(/^📝\s*Examen:\s*/, "");
+
+function pintarMes() {
+  const { y, m } = mesVisto;
+  const nombreMes = new Intl.DateTimeFormat("es-ES", { month: "long", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, 15, 12)));
+  document.getElementById("cal-mes").textContent = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1) + " " + y;
+  const grid = document.getElementById("cal-grid");
+  grid.innerHTML = "";
+  ["L", "M", "X", "J", "V", "S", "D"].forEach(d => {
+    const c = document.createElement("div"); c.className = "dow"; c.textContent = d; grid.appendChild(c);
+  });
+  const primero = new Date(Date.UTC(y, m - 1, 1, 12));
+  const desfase = (primero.getUTCDay() + 6) % 7; // lunes = 0
+  const inicio = new Date(Date.UTC(y, m - 1, 1 - desfase, 12));
+  const hoy = hoyClave();
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(inicio.getTime() + i * 86400000);
+    const clave = d.toISOString().slice(0, 10);
+    const evs = eventosDelDia(clave);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "day" + (d.getUTCMonth() !== m - 1 ? " out" : "") + (clave === hoy ? " today" : "") +
+      (clave === diaSel ? " sel" : "") + ([0, 6].includes(d.getUTCDay()) ? " weekend" : "");
+    btn.setAttribute("aria-label", fmtDiaLargo.format(d) + (evs.length ? ", " + evs.length + " evento" + (evs.length > 1 ? "s" : "") : ""));
+    const n = document.createElement("span"); n.className = "n"; n.textContent = d.getUTCDate();
+    btn.appendChild(n);
+    if (evs.length) {
+      const ex = evs.filter(esExamen);
+      if (ex.length) {
+        const chip = document.createElement("span"); chip.className = "chip";
+        chip.textContent = ex.length > 1 ? "📝 ×" + ex.length : "📝 Examen";
+        btn.appendChild(chip);
+      }
+      const otros = evs.filter(e => !esExamen(e));
+      if (otros.length) {
+        const dots = document.createElement("span"); dots.className = "dots";
+        otros.slice(0, 4).forEach(() => { const dot = document.createElement("span"); dot.className = "dot"; dots.appendChild(dot); });
+        btn.appendChild(dots);
+      }
+    }
+    btn.addEventListener("click", () => { diaSel = clave; pintarMes(); });
+    grid.appendChild(btn);
+  }
+  pintarDia();
+}
+
+function pintarDia() {
+  const [y, m, d] = diaSel.split("-").map(Number);
+  const fecha = new Date(Date.UTC(y, m - 1, d, 12));
+  const t = fmtDiaLargo.format(fecha);
+  document.getElementById("cal-dia-titulo").textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  const ul = document.getElementById("cal-list");
+  ul.innerHTML = "";
+  const evs = eventosDelDia(diaSel);
+  if (!evs.length) {
+    const li = document.createElement("li"); li.className = "state"; li.textContent = "Nada apuntado este día.";
+    ul.appendChild(li); return;
+  }
+  evs.forEach(ev => {
+    const li = document.createElement("li"); li.className = "cal-item";
+    const when = document.createElement("div"); when.className = "when";
+    if (ev.start.dateTime) {
+      const ini = new Date(ev.start.dateTime);
+      const fin = ev.end && ev.end.dateTime ? new Date(ev.end.dateTime) : null;
+      when.textContent = fmtHora.format(ini) + (fin ? "–" + fmtHora.format(fin) : "");
+    } else when.textContent = "Todo el día";
+    const tt = document.createElement("div"); tt.className = "subject"; tt.textContent = ev.summary || "(Sin título)";
+    li.append(when, tt); ul.appendChild(li);
+  });
+}
+
+function moverMes(delta) {
+  let { y, m } = mesVisto; m += delta;
+  if (m < 1) { m = 12; y--; } if (m > 12) { m = 1; y++; }
+  mesVisto = { y, m }; pintarMes();
+}
+document.getElementById("cal-prev").addEventListener("click", () => moverMes(-1));
+document.getElementById("cal-next").addEventListener("click", () => moverMes(1));
+document.getElementById("cal-hoy").addEventListener("click", () => {
+  const [y, m] = hoyClave().split("-").map(Number); mesVisto = { y, m }; diaSel = hoyClave(); pintarMes();
+});
+
+function estadoCal(html) { const p = document.getElementById("cal-state"); p.hidden = !html; p.innerHTML = html || ""; }
+const enlaceCal = "<a href='https://calendar.google.com/' target='_blank' rel='noopener'>Abrir Google Calendar</a>";
+const fmtCopia = new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" });
+
+function rangoConsulta() {
+  // Desde el 1 del mes actual hasta 4 meses después (hora de Madrid, sin zona)
+  const [y, m] = hoyClave().split("-").map(Number);
+  const fin = new Date(Date.UTC(y, m - 1 + 4, 1));
+  const pad = n => String(n).padStart(2, "0");
+  return { startTime: y + "-" + pad(m) + "-01T00:00:00", endTime: fin.getUTCFullYear() + "-" + pad(fin.getUTCMonth() + 1) + "-01T00:00:00", orderBy: "startTime", pageSize: 250 };
+}
+function usarRespuesta(result) {
+  const p = result.payload;
+  const evs = Array.isArray(p) ? p : (p && (p.events || p.items)) || [];
+  eventosCal = evs.filter(e => e.status !== "cancelled");
+  const cuando = result.cache ? new Date(result.cache.storedAt) : new Date();
+  document.getElementById("cal-fresh").textContent = "En directo · " + fmtHora.format(cuando);
+  estadoCal("");
+  pintarMes();
+}
+
+async function iniciarCalendar() {
+  document.getElementById("cal-fresh").textContent = "Copia del " + fmtCopia.format(new Date(copiaCalendar.fecha));
+  pintarMes();
+  let mcp = null;
+  for (let i = 0; i < 15 && !(window.claude && window.claude.use); i++) await new Promise(r => setTimeout(r, 200));
+  try { mcp = window.claude && window.claude.use ? await window.claude.use("mcp") : null; } catch (e) { mcp = null; }
+  if (!mcp) {
+    estadoCal("Muestra una copia de tu Google Calendar. Para verlo al día, abre el panel dentro de Claude o " + enlaceCal.replace("Abrir", "abre") + ".");
+    return;
+  }
+  const entrada = rangoConsulta();
+  const quitar = mcp.watchTool("Google Calendar", "list_events", entrada, ev => {
+    if (ev.type === "data") { usarRespuesta(ev.result); return; }
+    const code = ev.error && ev.error.code;
+    if (code === "needs_reauth") {
+      eventosCal = copiaCalendar.eventos; pintarMes();
+      estadoCal("Tu conexión con Google Calendar ha caducado. Vuelve a conectarlo en Ajustes → Conectores de Claude. Mientras, ves la copia.");
+    } else if (code === "server_not_connected" || code === "selection_required") {
+      eventosCal = copiaCalendar.eventos; pintarMes();
+      estadoCal("Google Calendar no está conectado. Añádelo en Ajustes → Conectores de Claude. Mientras, ves la copia.");
+    } else if (code === "approval_required" || code === "not_in_manifest" || code === "consent_required") {
+      eventosCal = copiaCalendar.eventos; pintarMes();
+      estadoCal("Para verlo en directo, el panel necesita permiso para leer tu calendario. <button type='button' class='small-btn' id='cal-permiso'>Dar permiso</button>");
+      const btn = document.getElementById("cal-permiso");
+      if (btn) btn.addEventListener("click", async () => {
+        try { usarRespuesta(await mcp.callTool("Google Calendar", "list_events", entrada)); }
+        catch (err) { estadoCal("No se ha dado el permiso. Sigues viendo la copia. " + enlaceCal + "."); }
+      });
+    } else if (code === "blocked_by_policy") {
+      estadoCal("Tu cuenta no permite leer el calendario desde aquí. Ves la copia. " + enlaceCal + ".");
+    } else if (["not_granted", "capability_disabled", "capability_removed", "bad_request"].includes(code)) {
+      estadoCal("Esta vista no puede leer tu calendario en directo. Ves la copia. " + enlaceCal + ".");
+    } else {
+      // Error temporal: se mantienen los últimos datos
+      estadoCal("Google Calendar no responde ahora mismo. Se muestran los últimos datos.");
+    }
+  }, { refetchInterval: 15 * 60 * 1000 });
+  window.addEventListener("pagehide", () => quitar());
+}
+
+
+// ---------- Tareas del campus (las escribe Claude en la base de datos del panel) ----------
+const fmtEntrega = new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" });
+const fmtRevision = new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" });
+// Copia de las tareas del campus (12/11/2026). Dentro de Claude se sustituye por los datos al día.
+const copiaCampus = {"revisado": "2026-11-12T17:06:00+01:00", "tareas": [{"modulo": "Primeros Auxilios", "titulo": "Tema 1 · Actividad 1: Casos prácticos en primeros auxilios", "vence": "2026-10-02T21:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=448932"}, {"modulo": "Itinerario empleabilidad II", "titulo": "Torre de espaguetis", "vence": "2026-10-02T23:59:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=431100"}, {"modulo": "Diseño de interfaces web", "titulo": "UD2 · Ejercicio 1. Errores y estilos", "vence": "2026-10-15T00:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=460739"}, {"modulo": "Diseño de interfaces web", "titulo": "UD2 · Ejercicio 2. Refactorización", "vence": "2026-10-15T00:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=460740"}, {"modulo": "Primeros Auxilios", "titulo": "Tema 1 · Actividad 2: Prepara tu botiquín", "vence": "2026-10-18T21:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=464912"}, {"modulo": "Sostenibilidad", "titulo": "Actividad evaluable: Los hechos del cambio climático", "vence": "2026-10-21T21:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=434584", "nota": "calificada con 0,00"}, {"modulo": "Diseño de interfaces web", "titulo": "UD2 · Ejercicio 3. Uso de estilos", "vence": "2026-10-22T00:00:00+02:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=464654"}, {"modulo": "Primeros Auxilios", "titulo": "Cuestionario Tema 1: Valoración inicial de las víctimas", "vence": "2026-10-31T23:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=468723"}, {"modulo": "Despliegue de aplicaciones web", "titulo": "Implantación de encriptación mediante SSH en un servidor FTP (SFTP)", "vence": "2026-11-02T00:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=469086"}, {"modulo": "Primeros Auxilios", "titulo": "Tema 2 · Actividad de soporte vital", "vence": "2026-11-08T20:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=472123"}, {"modulo": "Entorno cliente", "titulo": "Tarea Tema 3: Contador de visitas", "vence": "2026-11-09T23:59:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=471092"}, {"modulo": "Diseño de interfaces web", "titulo": "Interfaz UD1", "vence": "2026-11-13T00:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=472087"}, {"modulo": "Diseño de interfaces web", "titulo": "Control UD2", "vence": "2026-11-13T00:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=472088"}, {"modulo": "Sostenibilidad", "titulo": "Actividad evaluable · Campaña de sensibilización (UD2)", "vence": "2026-11-25T16:00:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=471364"}, {"modulo": "Itinerario empleabilidad II", "titulo": "Análisis PESTEL", "vence": "2026-11-27T23:59:00+01:00", "url": "https://campus.ceacfp.es/mod/assign/view.php?id=472279"}]};
+let datosCampus = null;
+let ocultas = leer("panel-campus-hechas", []); // enlaces de las tareas marcadas como hechas
+let verOcultas = false;
+
+function textoPlazo(vence, ahora) {
+  const ms = vence - ahora;
+  const h = Math.abs(ms) / 3600000;
+  if (ms >= 0) {
+    if (h < 24) return "vence en " + Math.max(1, Math.round(h)) + " h";
+    const d = Math.floor(h / 24);
+    return "vence en " + d + (d === 1 ? " día" : " días");
+  }
+  if (h < 24) return "vencida hace " + Math.max(1, Math.round(h)) + " h";
+  const d = Math.floor(h / 24);
+  return d + (d === 1 ? " día" : " días") + " de retraso";
+}
+
+function claveTarea(t) { return t.url || (t.modulo + "|" + t.titulo); }
+
+function filaEntrega(t, ahora, tarde) {
+  const li = document.createElement("li");
+  const oculta = ocultas.includes(claveTarea(t));
+  li.className = "entrega" + (tarde ? " late" : "") + (oculta ? " oculta" : "");
+  const mod = document.createElement("div"); mod.className = "mod"; mod.textContent = t.modulo || "";
+  const a = document.createElement("a");
+  a.textContent = t.titulo || "(Sin título)";
+  if (typeof t.url === "string" && t.url.startsWith("https://campus.ceacfp.es/")) { a.href = t.url; a.target = "_blank"; a.rel = "noopener"; }
+  const meta = document.createElement("div"); meta.className = "meta";
+  const vence = new Date(t.vence);
+  meta.textContent = "Fecha de entrega: " + fmtEntrega.format(vence) + (t.nota ? " · " + t.nota : "");
+  const pill = document.createElement("span");
+  pill.className = "pill " + (tarde ? "late" : (vence - ahora < 3 * 86400000 ? "next" : "later"));
+  pill.textContent = textoPlazo(vence, ahora);
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "hecha";
+  btn.textContent = oculta ? "Volver a mostrar" : "✓ Hecha";
+  btn.setAttribute("aria-label", (oculta ? "Volver a mostrar: " : "Marcar como hecha y ocultar: ") + (t.titulo || ""));
+  btn.addEventListener("click", () => {
+    const k = claveTarea(t);
+    ocultas = oculta ? ocultas.filter(x => x !== k) : ocultas.concat(k);
+    guardar("panel-campus-hechas", ocultas);
+    pintarCampus();
+  });
+  li.append(mod, a, meta, pill, btn);
+  return li;
+}
+
+function pintarCampus() {
+  const estado = document.getElementById("campus-state");
+  if (!datosCampus) return;
+  const ahora = new Date();
+  const todas = Array.isArray(datosCampus.tareas) ? datosCampus.tareas.filter(t => t && t.vence && !isNaN(new Date(t.vence))) : [];
+  // Olvidar las marcadas como hechas que ya no aparecen en el campus
+  const claves = todas.map(claveTarea);
+  const limpias = ocultas.filter(k => claves.includes(k));
+  if (limpias.length !== ocultas.length) { ocultas = limpias; guardar("panel-campus-hechas", ocultas); }
+  const nOcultas = todas.filter(t => ocultas.includes(claveTarea(t))).length;
+  const lista = verOcultas ? todas : todas.filter(t => !ocultas.includes(claveTarea(t)));
+  const bOc = document.getElementById("ver-ocultas");
+  bOc.hidden = nOcultas === 0;
+  bOc.textContent = verOcultas ? "Ocultar las marcadas como hechas" : "Ver las marcadas como hechas (" + nOcultas + ")";
+  const tarde = lista.filter(t => new Date(t.vence) < ahora).sort((a, b) => new Date(a.vence) - new Date(b.vence));
+  const pend = lista.filter(t => new Date(t.vence) >= ahora).sort((a, b) => new Date(a.vence) - new Date(b.vence));
+  const lt = document.getElementById("lista-tarde"), lp = document.getElementById("lista-pend");
+  lt.innerHTML = ""; lp.innerHTML = "";
+  tarde.forEach(t => lt.appendChild(filaEntrega(t, ahora, true)));
+  pend.forEach(t => lp.appendChild(filaEntrega(t, ahora, false)));
+  document.getElementById("n-tarde").textContent = "(" + tarde.length + ")";
+  document.getElementById("n-pend").textContent = "(" + pend.length + ")";
+  document.getElementById("grp-tarde").hidden = tarde.length === 0;
+  document.getElementById("grp-pend").hidden = pend.length === 0;
+  if (datosCampus.revisado) document.getElementById("campus-fresh").textContent = (datosCampus === copiaCampus ? "Copia del campus · " : "Campus revisado ") + fmtRevision.format(new Date(datosCampus.revisado));
+  if (!lista.length) { estado.hidden = false; estado.textContent = nOcultas ? "Todo hecho. ¡Bien!" : "No tienes nada pendiente en el campus. ¡Bien!"; }
+  else estado.hidden = true;
+}
+
+document.getElementById("ver-ocultas").addEventListener("click", () => { verOcultas = !verOcultas; pintarCampus(); });
+
+async function iniciarCampus() {
+  const estado = document.getElementById("campus-state");
+  let db = null;
+  for (let i = 0; i < 15 && !(window.claude && window.claude.use); i++) await new Promise(r => setTimeout(r, 200));
+  try { db = window.claude && window.claude.use ? await window.claude.use("db") : null; } catch (e) { db = null; }
+  if (!db) {
+    // Versión local: se muestra la copia guardada en el archivo
+    datosCampus = copiaCampus;
+    pintarCampus();
+    setInterval(pintarCampus, 30 * 60 * 1000); // recalcula los días de retraso
+    return;
+  }
+  let timer = setTimeout(() => {
+    estado.hidden = false;
+    estado.textContent = datosCampus ? "Puede que las tareas no estén al día: no se puede conectar ahora." : "No se pueden cargar las tareas del campus todavía.";
+  }, 10000);
+  db.doc("campus/entregas").onSnapshot(snap => {
+    if (!snap.metadata.fromCache) { clearTimeout(timer); }
+    if (!snap.exists) {
+      if (!snap.metadata.fromCache) { estado.hidden = false; estado.textContent = "Todavía no he revisado el campus."; }
+      return;
+    }
+    datosCampus = snap.data();
+    pintarCampus();
+  }, err => {
+    clearTimeout(timer);
+    estado.hidden = false;
+    estado.textContent = err && err.code === "revoked"
+      ? "Esta vista ya no tiene acceso a las tareas del campus."
+      : "No se han podido cargar las tareas del campus.";
+  });
+  setInterval(pintarCampus, 30 * 60 * 1000); // recalcula los días de retraso
+}
+
+aplicarTema();
+pintarSaludo();
+pintarTareas();
+pintarHorario();
+iniciarCalendar();
+iniciarCampus();
+setInterval(() => { pintarSaludo(); pintarHorario(); }, 10 * 60 * 1000);
+
+pintarExamenes();
+pintarFrases();
+setInterval(pintarExamenes, 60 * 60 * 1000);
+</script>
+</body>
+</html>

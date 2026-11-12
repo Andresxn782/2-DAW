@@ -1,4 +1,4 @@
-# mavr | interfaz integrada · 004 · Implementación de interfaces naturales
+# art | interfaz integrada · 004 · Implementación de interfaces naturales
 
 Iteración de la **UD2 · Generación de interfaces naturales de usuario**. Parte de `003-UD1-completa` y le añade, igual que en el proyecto de referencia (`Material_DI/002-…/002-Interfaces naturales/005-Habla`), un **asistente flotante** que combina tres interfaces naturales:
 
@@ -34,7 +34,7 @@ Para cambiar de modelo, edita la variable `$modelo` al principio de `ollama.php`
 ```
 004-implementacion de interfaces naturales/
 ├── ollama.php          NUEVO · puente navegador → Ollama (localhost:11434)
-├── index.html          + bloque <section id="mvAsistente">
+├── index.html          + bloque <section id="arAsistente">
 ├── css/estilo.css      + sección 16: asistente, interruptor y respuesta Markdown
 └── js/componentes.js   + clases MarkdownIU, VozIU y AsistenteIU
 ```
@@ -58,8 +58,8 @@ Otros ajustes:
 | 001 · Herramientas de aprendizaje automático (chatbot con Ollama) | **Sí**: es el motor del asistente (`ollama.php`). |
 | 002 · Interfaces naturales (proyecto de la UD1 + prompt IA) | **Sí**: es la base de esta iteración. |
 | 003 · Voz y habla (síntesis y reconocimiento) | **Sí**: micrófono e interruptor «Hablar respuesta». |
-| 004 · Partes y movimientos del cuerpo (MediaPipe: cara, manos, avatar) | No, porque no aporta nada a una aplicación de gestión. Copiados con el estilo mavr en `ejercicios/cuerpo/`. |
-| 005 · Realidad aumentada (A-Frame) | No, por el mismo motivo. Copiados con el estilo mavr en `ejercicios/realidad-aumentada/`. |
+| 004 · Partes y movimientos del cuerpo (MediaPipe: cara, manos, avatar) | No, porque no aporta nada a una aplicación de gestión. Copiados con el estilo art en `ejercicios/cuerpo/`. |
+| 005 · Realidad aumentada (A-Frame) | No, por el mismo motivo. Copiados con el estilo art en `ejercicios/realidad-aumentada/`. |
 
 ## Ejercicios independientes
 
@@ -68,16 +68,16 @@ Con el servidor en marcha, entra en `http://localhost:8000/ejercicios/`: es un �
 ```
 ejercicios/
 ├── index.html             índice con tarjetas
-├── css/ejercicios.css     estilo mavr común (se carga después del <style> de cada ejercicio)
+├── css/ejercicios.css     estilo art común (se carga después del <style> de cada ejercicio)
 ├── cuerpo/                11 ejercicios + spritesheet.png y spritesheetA.png
 └── realidad-aumentada/    8 ejercicios
 ```
 
 Cambios respecto al material original (la lógica de cada ejercicio no se ha tocado):
 
-- Cabecera mavr con logo y botón «← Ejercicios» (o un botón flotante en los de pantalla completa).
+- Cabecera art con logo y botón «← Ejercicios» (o un botón flotante en los de pantalla completa).
 - Tipografía, paleta grafito + naranja y esquinas redondeadas.
-- Colores de dibujo del canvas (recuadros, puntos, mallas) pasados a la paleta mavr.
+- Colores de dibujo del canvas (recuadros, puntos, mallas) pasados a la paleta art.
 - Los avatares con chat usan el `ollama.php` de la raíz (`../../ollama.php`).
 - `006-raton.html` muestra además las coordenadas en pantalla, no solo en la consola.
 

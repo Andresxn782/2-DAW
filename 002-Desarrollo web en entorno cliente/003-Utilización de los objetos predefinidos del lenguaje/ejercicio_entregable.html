@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenida</title>
+    <style>
+      /* Estilos generales */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #eef2f7;
+        color: #222;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Tarjeta central donde se muestra el saludo */
+      #tarjeta {
+        background-color: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 420px;
+      }
+
+      h1 {
+        color: #0b2f55;
+        margin-top: 0;
+      }
+
+      .saludo {
+        font-size: 1.2rem;
+      }
+
+      .fecha {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Mensaje que aparece cada 5 visitas */
+      .felicitacion {
+        background-color: #fff3cd;
+        color: #8a6d00;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+
+      button {
+        background-color: #0b2f55;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #164b85;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tarjeta">
+      <h1>Bienvenida</h1>
+      <!-- Aquí el JavaScript añadirá los párrafos con createElement -->
+      <button id="botonBorrar">Borrar mis datos</button>
+    </div>
+
+    <script>
+      // Nombres de las claves que usamos en localStorage
+      const CLAVE_NOMBRE = 'nombreUsuario';
+      const CLAVE_VISITAS = 'numeroVisitas';
+
+      // Pone la primera letra en mayúscula y el resto en minúscula
+      function formatearNombre(texto) {
+        const limpio = texto.trim();
+        return limpio.charAt(0).toUpperCase() + limpio.slice(1).toLowerCase();
+      }
+
+      // Pide el nombre al usuario. Si cancela o lo deja vacío, devuelve "Invitado"
+      function pedirNombre() {
+        const respuesta = prompt('¡Hola! ¿Cómo te llamas?');
+
+        // prompt devuelve null si se pulsa Cancelar
+        if (respuesta === null || respuesta.trim() === '') {
+          return 'Invitado';
+        }
+        return formatearNombre(respuesta);
+      }
+
+      // Añade dos ceros a la izquierda si hace falta: 5 -> "05"
+      function dosCifras(numero) {
+        return String(numero).padStart(2, '0');
+      }
+
+      // Devuelve la fecha en formato dd/mm/aaaa hh:mm
+      function formatearFecha(fecha) {
+        const dia = dosCifras(fecha.getDate());
+        const mes = dosCifras(fecha.getMonth() + 1); // los meses empiezan en 0
+        const anio = fecha.getFullYear();
+        const horas = dosCifras(fecha.getHours());
+        const minutos = dosCifras(fecha.getMinutes());
+        return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
+      }
+
+      // Crea un párrafo con createElement + textContent y lo mete en la tarjeta
+      function mostrarParrafo(texto, clase) {
+        const parrafo = document.createElement('p');
+        parrafo.textContent = texto;
+        parrafo.className = clase;
+        const tarjeta = document.getElementById('tarjeta');
+        const boton = document.getElementById('botonBorrar');
+        tarjeta.insertBefore(parrafo, boton); // lo coloca antes del botón
+      }
+
+      // ---------- 1 y 2. Nombre del usuario ----------
+      let nombreUsuario = localStorage.getItem(CLAVE_NOMBRE);
+
+      if (nombreUsuario !== null) {
+        // Ya hay un nombre guardado: comprobamos que sea la misma persona
+        const esElMismo = confirm(`¿Eres ${nombreUsuario}?`);
+        if (!esElMismo) {
+          localStorage.removeItem(CLAVE_NOMBRE);
+          localStorage.removeItem(CLAVE_VISITAS);
+          nombreUsuario = null;
+        }
+      }
+
+      if (nombreUsuario === null) {
+        nombreUsuario = pedirNombre();
+        localStorage.setItem(CLAVE_NOMBRE, nombreUsuario);
+      }
+
+      // ---------- 3. Contador de visitas ----------
+      // localStorage guarda texto, por eso lo pasamos a número con Number()
+      let numeroVisitas = Number(localStorage.getItem(CLAVE_VISITAS)) || 0;
+      numeroVisitas++;
+      localStorage.setItem(CLAVE_VISITAS, numeroVisitas);
+
+      // ---------- 4. Saludo en la página ----------
+      mostrarParrafo(`Hola, ${nombreUsuario}. Es tu visita número ${numeroVisitas}.`, 'saludo');
+
+      // ---------- 5. Fecha y hora de la visita ----------
+      mostrarParrafo(`Fecha de la visita: ${formatearFecha(new Date())}`, 'fecha');
+
+      // Felicitación cada 5 visitas (5, 10, 15...)
+      if (numeroVisitas % 5 === 0) {
+        const mensaje = `¡Enhorabuena, ${nombreUsuario}! Ya llevas ${numeroVisitas} visitas.`;
+        alert(mensaje);
+        mostrarParrafo(mensaje, 'felicitacion');
+      }
+
+      // Extra para hacer pruebas: borra los datos y recarga la página
+      document.getElementById('botonBorrar').addEventListener('click', function () {
+        localStorage.removeItem(CLAVE_NOMBRE);
+        localStorage.removeItem(CLAVE_VISITAS);
+        location.reload();
+      });
+    </script>
+  </body>
+</html>
